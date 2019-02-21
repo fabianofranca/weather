@@ -1,0 +1,42 @@
+{
+  "coord": {
+    "lon": -1.03,
+    "lat": 52.09
+  },
+  "weather": [
+    {
+      "id": 800,
+      "main": "Clear",
+      "description": "clear sky",
+      "icon": "02n"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 8.51,
+    "pressure": 1022,
+    "humidity": 93,
+    "temp_min": 7,
+    "temp_max": 10
+  },
+  "visibility": 9000,
+  "wind": {
+    "speed": 4.6,
+    "deg": 210
+  },
+  "clouds": {
+    "all": 8
+  },
+  "dt": 1550710560,
+  "sys": {
+    "type": 1,
+    "id": 1400,
+    "message": 0.0037,
+    "country": "GB",
+    "sunrise": 1550732866,
+    "sunset": 1550770114
+  },
+  "id": 2637827,
+  "name": "Silverstone",
+  "cod": 200
+}
