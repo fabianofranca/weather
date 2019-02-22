@@ -1,4 +1,4 @@
-package com.fabianofranca.extensions
+package com.fabianofranca.weather.extensions
 
 fun String.fileContent(): String {
     return String.javaClass.classLoader.getResourceAsStream(this).bufferedReader()

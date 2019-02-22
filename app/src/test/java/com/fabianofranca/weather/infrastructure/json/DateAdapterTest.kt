@@ -1,4 +1,4 @@
-package com.fabianofranca.weather
+package com.fabianofranca.weather.infrastructure.json
 
 import com.fabianofranca.weather.infrastructure.json.DateAdapter
 import org.junit.Assert.assertEquals

@@ -34,9 +34,17 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     api 'com.squareup.retrofit2:retrofit:2.5.0'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+    implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
     implementation 'com.squareup.retrofit2:converter-moshi:2.5.0'
     kapt "com.squareup.moshi:moshi-kotlin-codegen:1.8.0"
-    implementation "com.squareup.moshi:moshi-kotlin:1.8.0"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0"
+
     testImplementation 'com.squareup.okhttp3:mockwebserver:3.10.0'
+    testImplementation "org.mockito:mockito-core:2.24.5"
+    testImplementation "android.arch.core:core-testing:1.1.1"
 }

@@ -1,10 +1,10 @@
-package com.fabianofranca.weather
+package com.fabianofranca.weather.providers
 
-import com.fabianofranca.extensions.fileContent
+import com.fabianofranca.weather.extensions.fileContent
 import com.fabianofranca.weather.entities.Clear
 import com.fabianofranca.weather.entities.Locale
 import com.fabianofranca.weather.infrastructure.DependencyProvider
-import com.fabianofranca.weather.providers.WeatherApiProvider
+import com.fabianofranca.weather.UnitTestMockDependencyProvider
 import okhttp3.mockwebserver.MockResponse
 import org.junit.Assert.*
 import org.junit.Test
@@ -12,7 +12,8 @@ import java.util.*
 
 class WeatherApiProviderTest {
 
-    private val dependencyProvider = UnitTestMockDependencyProvider()
+    private val dependencyProvider =
+        UnitTestMockDependencyProvider()
 
     private val weatherPath = "weather.json"
 
