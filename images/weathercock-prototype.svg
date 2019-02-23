@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="276.19803mm"
-   height="254.15167mm"
-   viewBox="0 0 276.19803 254.15167"
+   width="2485.0876"
+   height="961.04724"
+   viewBox="0 0 657.51276 254.27708"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.3 (2405546, 2018-03-11)"
@@ -26,8 +26,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.53527803"
-     inkscape:cx="422.13105"
-     inkscape:cy="697.22911"
+     inkscape:cx="1200.8702"
+     inkscape:cy="575.05391"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -40,7 +40,8 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     units="px" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -57,7 +58,7 @@
      inkscape:label="Camada 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(36.387714,-29.14472)">
+     transform="translate(241.2344,-29.14472)">
     <rect
        style="fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.0660772;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect11391-4-7-8"
@@ -721,84 +722,66 @@
       <g
          id="g5499"
          style="fill:#4d4d4d;fill-opacity:1">
-	<g
-   id="g5497"
-   style="fill:#4d4d4d;fill-opacity:1">
-		<path
-   id="path5493"
-   d="m 325.049,443.7 c 0,-1.9 0,-1.9 0,-3.8 V 153 c 0,-11.5 -7.6,-19.1 -19.1,-19.1 -11.5,0 -19.1,9.6 -19.1,19.1 v 286.9 c 0,1.899 0,1.899 0,3.8 -23,7.7 -38.2,28.7 -38.2,53.5 0,32.5 24.9,57.399 57.4,57.399 32.5,0 57.4,-24.899 57.4,-57.399 -0.099,-24.8 -15.4,-45.8 -38.4,-53.5 z"
-   inkscape:connector-curvature="0"
-   style="fill:#4d4d4d;fill-opacity:1" />
-
-		<path
-   id="path5495"
-   d="m 382.45,411.2 c 0,-3.8 0,-5.7 0,-9.601 V 76.5 c 0,-42.1 -34.4,-76.5 -76.5,-76.5 -42.1,0 -76.5,34.4 -76.5,76.5 v 325.1 c 0,3.801 0,5.7 0,9.601 -23,21 -38.2,51.6 -38.2,86.1 0,63.101 51.6,114.8 114.8,114.8 63.2,0 114.8,-51.6 114.8,-114.8 -0.1,-34.501 -15.4,-65.101 -38.4,-86.101 z m -76.5,162.6 c -42.1,0 -76.5,-34.399 -76.5,-76.5 0,-28.7 15.3,-53.5 38.2,-66.899 V 76.5 c 0,-21 17.2,-38.2 38.2,-38.2 21,0 38.2,17.2 38.2,38.2 v 353.8 c 23,13.4 38.2,38.2 38.2,66.9 0.2,42.1 -34.201,76.6 -76.3,76.6 z"
-   inkscape:connector-curvature="0"
-   style="fill:#4d4d4d;fill-opacity:1" />
-
-	</g>
-
-</g>
+        <g
+           id="g5497"
+           style="fill:#4d4d4d;fill-opacity:1">
+          <path
+             id="path5493"
+             d="m 325.049,443.7 c 0,-1.9 0,-1.9 0,-3.8 V 153 c 0,-11.5 -7.6,-19.1 -19.1,-19.1 -11.5,0 -19.1,9.6 -19.1,19.1 v 286.9 c 0,1.899 0,1.899 0,3.8 -23,7.7 -38.2,28.7 -38.2,53.5 0,32.5 24.9,57.399 57.4,57.399 32.5,0 57.4,-24.899 57.4,-57.399 -0.099,-24.8 -15.4,-45.8 -38.4,-53.5 z"
+             inkscape:connector-curvature="0"
+             style="fill:#4d4d4d;fill-opacity:1" />
+          <path
+             id="path5495"
+             d="m 382.45,411.2 c 0,-3.8 0,-5.7 0,-9.601 V 76.5 c 0,-42.1 -34.4,-76.5 -76.5,-76.5 -42.1,0 -76.5,34.4 -76.5,76.5 v 325.1 c 0,3.801 0,5.7 0,9.601 -23,21 -38.2,51.6 -38.2,86.1 0,63.101 51.6,114.8 114.8,114.8 63.2,0 114.8,-51.6 114.8,-114.8 -0.1,-34.501 -15.4,-65.101 -38.4,-86.101 z m -76.5,162.6 c -42.1,0 -76.5,-34.399 -76.5,-76.5 0,-28.7 15.3,-53.5 38.2,-66.899 V 76.5 c 0,-21 17.2,-38.2 38.2,-38.2 21,0 38.2,17.2 38.2,38.2 v 353.8 c 23,13.4 38.2,38.2 38.2,66.9 0.2,42.1 -34.201,76.6 -76.3,76.6 z"
+             inkscape:connector-curvature="0"
+             style="fill:#4d4d4d;fill-opacity:1" />
+        </g>
+      </g>
       <g
          id="g5501"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5503"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5505"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5507"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5509"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5511"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5513"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5515"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5517"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5519"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5521"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5523"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5525"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5527"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g5529"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
     </g>
     <rect
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.17176373;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
@@ -1060,68 +1043,53 @@
        style="fill:#f2f2f2;fill-opacity:1">
       <polygon
          id="polygon6539"
-         points="202.128,252.427 18,114.331 0,138.331 202.128,289.927 404.257,138.331 386.257,114.331 "
+         points="202.128,289.927 404.257,138.331 386.257,114.331 202.128,252.427 18,114.331 0,138.331 "
          style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6541"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6543"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6545"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6547"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6549"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6551"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6553"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6555"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6557"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6559"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6561"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6563"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6565"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6567"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6569"
-         style="fill:#f2f2f2;fill-opacity:1">
-</g>
+         style="fill:#f2f2f2;fill-opacity:1" />
     </g>
     <g
        id="g6758"
@@ -1144,73 +1112,57 @@
         <g
            style="fill:#cccccc;fill-opacity:1"
            id="g6680">
-	<path
-   style="fill:#cccccc;fill-opacity:1"
-   inkscape:connector-curvature="0"
-   d="M 414.41,24.123 C 398.333,8.042 378.963,0 356.315,0 H 82.228 C 59.58,0 40.21,8.042 24.126,24.123 8.045,40.207 0.003,59.576 0.003,82.225 v 274.084 c 0,22.647 8.042,42.018 24.123,58.102 16.084,16.084 35.454,24.126 58.102,24.126 h 274.084 c 22.648,0 42.018,-8.042 58.095,-24.126 16.084,-16.084 24.126,-35.454 24.126,-58.102 V 82.225 C 438.532,59.576 430.49,40.204 414.41,24.123 Z M 133.618,367.157 H 67.666 V 169.016 h 65.952 z m -5.992,-234.825 c -6.851,6.567 -15.893,9.851 -27.124,9.851 h -0.288 c -10.848,0 -19.648,-3.284 -26.407,-9.851 -6.76,-6.567 -10.138,-14.703 -10.138,-24.41 0,-9.897 3.476,-18.083 10.421,-24.556 6.95,-6.471 15.942,-9.708 26.98,-9.708 11.039,0 19.89,3.237 26.553,9.708 6.661,6.473 10.088,14.659 10.277,24.556 -0.001,9.703 -3.423,17.839 -10.274,24.41 z m 243.247,234.825 h -65.952 v -105.92 c 0,-29.879 -11.036,-44.823 -33.116,-44.823 -8.374,0 -15.42,2.331 -21.128,6.995 -5.715,4.661 -9.996,10.324 -12.847,16.991 -1.335,3.422 -1.999,8.75 -1.999,15.981 v 110.775 h -65.952 c 0.571,-119.529 0.571,-185.579 0,-198.142 h 65.952 v 27.974 c 13.867,-21.681 33.558,-32.544 59.101,-32.544 22.84,0 41.21,7.52 55.104,22.554 13.895,15.037 20.841,37.214 20.841,66.519 v 113.64 z"
-   id="path6678" />
-
-</g>
+          <path
+             style="fill:#cccccc;fill-opacity:1"
+             inkscape:connector-curvature="0"
+             d="M 414.41,24.123 C 398.333,8.042 378.963,0 356.315,0 H 82.228 C 59.58,0 40.21,8.042 24.126,24.123 8.045,40.207 0.003,59.576 0.003,82.225 v 274.084 c 0,22.647 8.042,42.018 24.123,58.102 16.084,16.084 35.454,24.126 58.102,24.126 h 274.084 c 22.648,0 42.018,-8.042 58.095,-24.126 16.084,-16.084 24.126,-35.454 24.126,-58.102 V 82.225 C 438.532,59.576 430.49,40.204 414.41,24.123 Z M 133.618,367.157 H 67.666 V 169.016 h 65.952 z m -5.992,-234.825 c -6.851,6.567 -15.893,9.851 -27.124,9.851 h -0.288 c -10.848,0 -19.648,-3.284 -26.407,-9.851 -6.76,-6.567 -10.138,-14.703 -10.138,-24.41 0,-9.897 3.476,-18.083 10.421,-24.556 6.95,-6.471 15.942,-9.708 26.98,-9.708 11.039,0 19.89,3.237 26.553,9.708 6.661,6.473 10.088,14.659 10.277,24.556 -0.001,9.703 -3.423,17.839 -10.274,24.41 z m 243.247,234.825 h -65.952 v -105.92 c 0,-29.879 -11.036,-44.823 -33.116,-44.823 -8.374,0 -15.42,2.331 -21.128,6.995 -5.715,4.661 -9.996,10.324 -12.847,16.991 -1.335,3.422 -1.999,8.75 -1.999,15.981 v 110.775 h -65.952 c 0.571,-119.529 0.571,-185.579 0,-198.142 h 65.952 v 27.974 c 13.867,-21.681 33.558,-32.544 59.101,-32.544 22.84,0 41.21,7.52 55.104,22.554 13.895,15.037 20.841,37.214 20.841,66.519 v 113.64 z"
+             id="path6678" />
+        </g>
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6682">
-</g>
+           id="g6682" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6684">
-</g>
+           id="g6684" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6686">
-</g>
+           id="g6686" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6688">
-</g>
+           id="g6688" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6690">
-</g>
+           id="g6690" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6692">
-</g>
+           id="g6692" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6694">
-</g>
+           id="g6694" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6696">
-</g>
+           id="g6696" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6698">
-</g>
+           id="g6698" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6700">
-</g>
+           id="g6700" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6702">
-</g>
+           id="g6702" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6704">
-</g>
+           id="g6704" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6706">
-</g>
+           id="g6706" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6708">
-</g>
+           id="g6708" />
         <g
            style="fill:#cccccc;fill-opacity:1"
-           id="g6710">
-</g>
+           id="g6710" />
       </g>
     </g>
     <rect
@@ -1364,78 +1316,61 @@
       <g
          id="g7862"
          style="fill:#4d4d4d;fill-opacity:1">
-	<g
-   id="file-download"
-   style="fill:#4d4d4d;fill-opacity:1">
-		<path
-   id="path7859"
-   d="m 395.25,153 h -102 V 0 h -153 v 153 h -102 l 178.5,178.5 z m -357,229.5 v 51 h 357 v -51 z"
-   inkscape:connector-curvature="0"
-   style="fill:#4d4d4d;fill-opacity:1" />
-
-	</g>
-
-</g>
+        <g
+           id="file-download"
+           style="fill:#4d4d4d;fill-opacity:1">
+          <path
+             id="path7859"
+             d="m 395.25,153 h -102 V 0 h -153 v 153 h -102 l 178.5,178.5 z m -357,229.5 v 51 h 357 v -51 z"
+             inkscape:connector-curvature="0"
+             style="fill:#4d4d4d;fill-opacity:1" />
+        </g>
+      </g>
       <g
          id="g7864"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7866"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7868"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7870"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7872"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7874"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7876"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7878"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7880"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7882"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7884"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7886"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7888"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7890"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
       <g
          id="g7892"
-         style="fill:#4d4d4d;fill-opacity:1">
-</g>
+         style="fill:#4d4d4d;fill-opacity:1" />
     </g>
     <text
        xml:space="preserve"
@@ -2316,7 +2251,7 @@
        style="fill:#f2f2f2;fill-opacity:1">
       <polygon
          id="polygon6539-9"
-         points="386.257,114.331 202.128,252.427 18,114.331 0,138.331 202.128,289.927 404.257,138.331 "
+         points="0,138.331 202.128,289.927 404.257,138.331 386.257,114.331 202.128,252.427 18,114.331 "
          style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6541-6"
@@ -3317,7 +3252,7 @@
        style="fill:#f2f2f2;fill-opacity:1">
       <polygon
          id="polygon6539-9-1"
-         points="404.257,138.331 386.257,114.331 202.128,252.427 18,114.331 0,138.331 202.128,289.927 "
+         points="18,114.331 0,138.331 202.128,289.927 404.257,138.331 386.257,114.331 202.128,252.427 "
          style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6541-6-4"
@@ -3446,78 +3381,61 @@
       <g
          id="g9400"
          style="fill:#cccccc;fill-opacity:1">
-	<g
-   id="sync-disabled"
-   style="fill:#cccccc;fill-opacity:1">
-		<path
-   id="path9397"
-   d="m 181.05,58.65 v -51 c -20.4,5.1 -38.25,12.75 -56.1,25.5 L 163.2,71.4 c 5.1,-5.1 10.2,-10.2 17.85,-12.75 z M 0,35.7 61.2,96.9 C 40.8,127.5 28.05,163.2 28.05,204 c 0,56.1 22.95,107.1 61.2,142.8 L 28.05,408 h 153 V 255 l -56.1,56.1 C 96.9,285.6 79.05,247.35 79.05,204 c 0,-25.5 5.1,-48.45 17.85,-71.4 l 206.55,206.55 c -5.101,2.55 -12.75,5.1 -20.4,7.649 v 53.55 c 20.4,-5.1 38.25,-12.75 56.1,-25.5 l 61.2,61.2 L 433.5,402.9 30.6,2.55 Z M 436.05,0 h -153 v 153 l 56.1,-56.1 c 28.051,25.5 45.9,63.75 45.9,107.1 0,25.5 -5.1,48.45 -17.85,71.4 l 38.25,38.25 c 17.85,-33.15 30.6,-68.851 30.6,-109.65 0,-56.1 -22.95,-107.1 -61.2,-142.8 z"
-   inkscape:connector-curvature="0"
-   style="fill:#cccccc;fill-opacity:1" />
-
-	</g>
-
-</g>
+        <g
+           id="sync-disabled"
+           style="fill:#cccccc;fill-opacity:1">
+          <path
+             id="path9397"
+             d="m 181.05,58.65 v -51 c -20.4,5.1 -38.25,12.75 -56.1,25.5 L 163.2,71.4 c 5.1,-5.1 10.2,-10.2 17.85,-12.75 z M 0,35.7 61.2,96.9 C 40.8,127.5 28.05,163.2 28.05,204 c 0,56.1 22.95,107.1 61.2,142.8 L 28.05,408 h 153 V 255 l -56.1,56.1 C 96.9,285.6 79.05,247.35 79.05,204 c 0,-25.5 5.1,-48.45 17.85,-71.4 l 206.55,206.55 c -5.101,2.55 -12.75,5.1 -20.4,7.649 v 53.55 c 20.4,-5.1 38.25,-12.75 56.1,-25.5 l 61.2,61.2 L 433.5,402.9 30.6,2.55 Z M 436.05,0 h -153 v 153 l 56.1,-56.1 c 28.051,25.5 45.9,63.75 45.9,107.1 0,25.5 -5.1,48.45 -17.85,71.4 l 38.25,38.25 c 17.85,-33.15 30.6,-68.851 30.6,-109.65 0,-56.1 -22.95,-107.1 -61.2,-142.8 z"
+             inkscape:connector-curvature="0"
+             style="fill:#cccccc;fill-opacity:1" />
+        </g>
+      </g>
       <g
          id="g9402"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9404"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9406"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9408"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9410"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9412"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9414"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9416"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9418"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9420"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9422"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9424"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9426"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9428"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
       <g
          id="g9430"
-         style="fill:#cccccc;fill-opacity:1">
-</g>
+         style="fill:#cccccc;fill-opacity:1" />
     </g>
     <path
        style="fill:none;stroke:#cccccc;stroke-width:0.29059228px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
@@ -3655,7 +3573,7 @@
        style="fill:#f2f2f2;fill-opacity:1">
       <polygon
          id="polygon6539-9-1-4"
-         points="202.128,289.927 404.257,138.331 386.257,114.331 202.128,252.427 18,114.331 0,138.331 "
+         points="202.128,252.427 18,114.331 0,138.331 202.128,289.927 404.257,138.331 386.257,114.331 "
          style="fill:#f2f2f2;fill-opacity:1" />
       <g
          id="g6541-6-4-4"
@@ -3778,7 +3696,7 @@
       </g>
     </g>
     <rect
-       style="fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.152;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;stroke-linejoin:bevel;stroke-linecap:round"
+       style="fill:#f9f9f9;fill-opacity:1;stroke:none;stroke-width:0.152;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect11391"
        width="18.192644"
        height="12.536662"
