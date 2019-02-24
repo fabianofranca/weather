@@ -1,8 +1,9 @@
 package com.fabianofranca.weathercock.view.main
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import com.fabianofranca.weathercock.R
+import com.fabianofranca.weathercock.view.launch.LaunchFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -10,5 +11,10 @@ class MainActivity : AppCompatActivity() {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val transaction = supportFragmentManager.beginTransaction()
+
+        transaction.add(R.id.container, LaunchFragment())
+        transaction.commit()
     }
 }

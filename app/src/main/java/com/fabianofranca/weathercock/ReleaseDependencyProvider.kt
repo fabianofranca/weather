@@ -5,6 +5,7 @@ import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.api.WeatherApi
 import com.fabianofranca.weathercock.infrastructure.json.DateAdapter
 import com.squareup.moshi.Moshi
+import com.squareup.otto.Bus
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -14,6 +15,8 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 class ReleaseDependencyProvider : DependencyProvider {
 
     private var units: Units = Units.METRIC
+
+    override fun bus(): Bus = bus
 
     override fun injectUnits(units: Units) {
         this.units = units
@@ -40,5 +43,7 @@ class ReleaseDependencyProvider : DependencyProvider {
             .addConverterFactory(MoshiConverterFactory.create(Moshi.Builder().add(DateAdapter()).build()))
             .build()
             .create(WeatherApi::class.java)
+
+        val bus: Bus = Bus()
     }
 }

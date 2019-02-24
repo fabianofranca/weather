@@ -4,8 +4,8 @@
 
     <item android:drawable="@android:color/white"/>
 
-    <item>
-        <bitmap android:src="@drawable/ic_logo" android:gravity="center"/>
+    <item android:top="96dp">
+        <bitmap android:src="@drawable/ic_logo" android:gravity="center_horizontal|top"/>
     </item>
 
 </layer-list>
