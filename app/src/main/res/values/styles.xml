@@ -8,10 +8,36 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:windowBackground">@android:color/white</item>
         <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:textViewStyle">@style/AppTheme.TextViewPrimary</item>
     </style>
 
     <style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
+    </style>
+
+    <style name="TextAppearance.RobotoRegular" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/roboto_regular</item>
+    </style>
+
+    <style name="TextAppearance.RobotoLight" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/roboto_light</item>
+    </style>
+
+    <style name="AppTheme.TextViewPrimary" parent="android:Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.RobotoLight</item>
+        <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="AppTheme.TextViewSecondary" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/colorSecondary</item>
+    </style>
+
+    <style name="AppTheme.TextViewPrimary.Light" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/colorPrimaryLight</item>
+    </style>
+
+    <style name="AppTheme.TextViewSecondary.Light" parent="android:Widget.TextView">
+        <item name="android:textColor">@color/colorSecondaryLight</item>
     </style>
 
 </resources>

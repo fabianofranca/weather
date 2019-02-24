@@ -7,11 +7,11 @@
     tools:context=".view.weather.WeatherFragment">
 
     <android.support.constraint.Guideline
-        android:id="@+id/tempGuide2"
+        android:id="@+id/locationGuide"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.7" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.78" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/logo"
@@ -30,33 +30,55 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_begin="12dp" />
 
+    <android.support.constraint.Guideline
+        android:id="@+id/tempGuideTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/tempGuideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.3" />
+
     <android.support.v7.widget.AppCompatTextView
-        android:id="@+id/textView"
+        android:id="@+id/currentTempText"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="24"
+        android:text="24°"
         app:autoSizeTextType="uniform"
         app:layout_constraintBottom_toTopOf="@+id/tempGuideBottom"
-        app:layout_constraintEnd_toStartOf="@+id/tempGuide2"
-        app:layout_constraintStart_toStartOf="@+id/tempGuide1"
+        app:layout_constraintEnd_toStartOf="@+id/tempGuideRight"
+        app:layout_constraintStart_toStartOf="@+id/tempGuideLeft"
         app:layout_constraintTop_toTopOf="@+id/tempGuideTop" />
 
-    <android.support.v7.widget.AppCompatTextView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:gravity="center"
-        android:text="clear"
-        app:autoSizeTextType="uniform"
-        app:layout_constraintBottom_toTopOf="@+id/conditionGuide"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/tempGuideBottom" />
+    <android.support.constraint.Guideline
+        android:id="@+id/tempGuideRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/tempGuideBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/iconGuideTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.33" />
 
     <android.support.v7.widget.AppCompatImageView
-        android:id="@+id/appCompatImageView"
+        android:id="@+id/currentConditionIcon"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginStart="60dp"
@@ -65,7 +87,205 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iconGuideTop"
-        app:srcCompat="@drawable/ic_drizzle" />
+        app:srcCompat="@drawable/ic_clear" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/iconGuideBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.65" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/conditionGuideTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.68" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/conditionText"
+        style="@style/AppTheme.TextViewSecondary"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:gravity="center"
+        android:text="clear"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/conditionGuideBottom"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/conditionGuideTop" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/conditionGuideBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.73" />
+
+    <android.support.v7.widget.AppCompatTextView
+        android:id="@+id/locationText"
+        style="@style/AppTheme.TextViewPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:text="são paulo, br"
+        android:textAllCaps="true"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBottom_toTopOf="@+id/dividerGuide"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/locationGuide" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/syncIcon"
+        android:layout_width="18dp"
+        android:layout_height="0dp"
+        android:layout_marginEnd="8dp"
+        android:padding="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/dividerGuide"
+        app:layout_constraintEnd_toStartOf="@+id/unitTypeContainer"
+        app:layout_constraintTop_toTopOf="@+id/locationGuide"
+        app:srcCompat="@drawable/ic_download" />
+
+    <android.support.v7.widget.LinearLayoutCompat
+        android:id="@+id/unitTypeContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toTopOf="@+id/dividerGuide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/locationGuide">
+
+        <android.support.v7.widget.AppCompatImageView
+            android:id="@+id/tempIcon"
+            android:layout_width="18dp"
+            android:layout_height="match_parent"
+            android:padding="2dp"
+            app:srcCompat="@drawable/ic_temperature" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/celsiusText"
+            style="@style/AppTheme.TextViewPrimary"
+            android:layout_width="18dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/celsius"
+            android:textAllCaps="true"
+            app:autoSizeTextType="uniform" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/fahrenheitText"
+            style="@style/AppTheme.TextViewSecondary"
+            android:layout_width="18dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/fahrenheit"
+            android:textAllCaps="true"
+            app:autoSizeTextType="uniform" />
+    </android.support.v7.widget.LinearLayoutCompat>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/dividerGuide"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.82" />
+
+    <View
+        android:id="@+id/dividerView"
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/colorSecondaryLight"
+        app:layout_constraintBottom_toTopOf="@+id/dividerGuide"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dividerGuide" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/daysGuideTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.83" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/daysGuideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <include
+        android:id="@+id/day1Include"
+        layout="@layout/include_day"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/daysGuideBottom"
+        app:layout_constraintEnd_toStartOf="@+id/day2Include"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
+        app:layout_constraintStart_toStartOf="@+id/daysGuideLeft"
+        app:layout_constraintTop_toTopOf="@+id/daysGuideTop" />
+
+    <include
+        android:id="@+id/day2Include"
+        layout="@layout/include_day"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/daysGuideBottom"
+        app:layout_constraintEnd_toStartOf="@+id/day3Include"
+        app:layout_constraintStart_toEndOf="@+id/day1Include"
+        app:layout_constraintTop_toTopOf="@+id/daysGuideTop" />
+
+    <include
+        android:id="@+id/day3Include"
+        layout="@layout/include_day"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/daysGuideBottom"
+        app:layout_constraintEnd_toStartOf="@+id/day4Include"
+        app:layout_constraintStart_toEndOf="@+id/day2Include"
+        app:layout_constraintTop_toTopOf="@+id/daysGuideTop" />
+
+    <include
+        android:id="@+id/day4Include"
+        layout="@layout/include_day"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/daysGuideBottom"
+        app:layout_constraintEnd_toStartOf="@+id/day5Include"
+        app:layout_constraintStart_toEndOf="@+id/day3Include"
+        app:layout_constraintTop_toTopOf="@+id/daysGuideTop" />
+
+    <include
+        android:id="@+id/day5Include"
+        layout="@layout/include_day"
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/daysGuideBottom"
+        app:layout_constraintEnd_toStartOf="@+id/daysGuideRight"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/day4Include"
+        app:layout_constraintTop_toTopOf="@+id/daysGuideTop" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/daysGuideRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="16dp" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/daysGuideBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.93" />
 
     <android.support.v7.widget.AppCompatImageView
         android:id="@+id/arrowDown"
@@ -74,48 +294,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/daysGuideBottom"
         app:srcCompat="@drawable/ic_arrow" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/tempGuide1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.3" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/iconGuideTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.4" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/iconGuideBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.7" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/tempGuideTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.12" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/tempGuideBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.28" />
-
-    <android.support.constraint.Guideline
-        android:id="@+id/conditionGuide"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.33" />
 
 </android.support.constraint.ConstraintLayout>
