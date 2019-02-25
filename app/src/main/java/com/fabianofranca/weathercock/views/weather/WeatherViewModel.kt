@@ -28,13 +28,11 @@ class WeatherViewModel(
 
     private val degree = application.getString(R.string.degree)
 
-    private var loadedWeatherForecasts = repository.weather()
-
     private val selectedColor = ContextCompat.getColor(application, R.color.colorPrimary)
 
     private val unselectedColor = ContextCompat.getColor(application, R.color.colorSecondary)
 
-    val weatherForecasts: LiveData<List<Weather>> = Transformations.map(loadedWeatherForecasts) {
+    val weatherForecasts: LiveData<List<Weather>> = Transformations.map(repository.weather()) {
         it?.let { w ->
             val days = mutableListOf(w)
 
@@ -126,7 +124,9 @@ class WeatherViewModel(
     @Subscribe
     fun reloadWeatherForecasts(event: ReloadWeatherForecastsEvent) {
         repository.weather()
+
         _location.value = DependencyProvider.Current.location().value
+
         bus.post(ChangePageEvent(Page.WEATHER))
     }
 }
