@@ -1,10 +1,10 @@
 package com.fabianofranca.weathercock.repositories
 
 import android.arch.core.executor.testing.InstantTaskExecutorRule
-import com.fabianofranca.weathercock.entities.Clear
-import com.fabianofranca.weathercock.entities.Locale
-import com.fabianofranca.weathercock.entities.Weather
+import com.fabianofranca.weathercock.UnitTestMockDependencyProvider
+import com.fabianofranca.weathercock.entities.*
 import com.fabianofranca.weathercock.extensions.verify
+import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.providers.WeatherProvider
 import org.junit.Assert.assertEquals
 import org.junit.Rule
@@ -12,6 +12,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mock
 import org.mockito.Mockito.`when`
+import org.mockito.Mockito.verify
 import org.mockito.junit.MockitoJUnitRunner
 import java.util.*
 
@@ -25,49 +26,52 @@ class WeatherRepositoryImplTest {
     @Mock
     lateinit var provider: WeatherProvider
 
-    private val weather = Weather(Clear, 0F, Calendar.getInstance().time)
+    private val weatherCurrent = Weather(Clear, 0, Calendar.getInstance().time)
+    private val weatherDay = Weather(Rain, 0, Calendar.getInstance().time)
 
-    private val locale = Locale.SILVERSTONE
+    private val location = Location.SAO_PAULO
+    private val units = Units.METRIC
 
-    @Test
-    fun current_shouldWork() {
+    init {
+        UnitTestMockDependencyProvider()
 
-        `when`(provider.current(locale)).thenReturn(weather)
-
-        val repository = WeatherRepositoryImpl(provider)
-
-        repository.current(Locale.SILVERSTONE).verify {
-            assertEquals(weather, it)
-        }
-    }
-
-    @Test(expected = Exception::class)
-    fun current_shouldThrowException() {
-        `when`(provider.current(locale)).thenThrow(Exception())
-
-        val repository = WeatherRepositoryImpl(provider)
-
-        repository.current(locale)
+        DependencyProvider.Current.injectUnits(units)
+        DependencyProvider.Current.injectLocation(location)
     }
 
     @Test
-    fun fiveDay_shouldWork() {
+    fun weather_shouldWork() {
 
-        `when`(provider.fiveDay(locale)).thenReturn(listOf(weather))
+        `when`(provider.current(location, units)).thenReturn(weatherCurrent)
+        `when`(provider.fiveDay(location, units)).thenReturn(listOf(weatherDay))
 
         val repository = WeatherRepositoryImpl(provider)
 
-        repository.fiveDay(Locale.SILVERSTONE).verify {
-            assertEquals(weather, it!!.first())
+        repository.weather().verify {
+            assertEquals(weatherCurrent, it)
+            assertEquals(weatherDay, it?.fiveDays?.first())
         }
+
+        verify(provider).current(location, units)
+        verify(provider).fiveDay(location, units)
     }
 
     @Test(expected = Exception::class)
-    fun fiveDay_shouldThrowException() {
-        `when`(provider.fiveDay(locale)).thenThrow(Exception())
+    fun weather_shouldThrowExceptionWhenCurrentFail() {
+        `when`(provider.current(location, units)).thenThrow(Exception())
+        `when`(provider.fiveDay(location, units)).thenReturn(listOf(weatherDay))
 
         val repository = WeatherRepositoryImpl(provider)
 
-        repository.fiveDay(locale)
+        repository.weather()
+    }
+
+    @Test(expected = Exception::class)
+    fun weather_shouldThrowExceptionWhenFiveDayFail() {
+        `when`(provider.fiveDay(location, units)).thenThrow(Exception())
+
+        val repository = WeatherRepositoryImpl(provider)
+
+        repository.weather()
     }
 }

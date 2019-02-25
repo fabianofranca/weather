@@ -1,13 +1,15 @@
 package com.fabianofranca.weathercock.providers
 
-import com.fabianofranca.weathercock.extensions.fileContent
-import com.fabianofranca.weathercock.entities.Clear
-import com.fabianofranca.weathercock.entities.Locale
-import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.UnitTestMockDependencyProvider
+import com.fabianofranca.weathercock.entities.Clear
+import com.fabianofranca.weathercock.entities.Location
+import com.fabianofranca.weathercock.entities.Units
+import com.fabianofranca.weathercock.extensions.fileContent
+import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import okhttp3.mockwebserver.MockResponse
 import org.junit.Assert.*
 import org.junit.Test
+import org.mockito.Mockito.verify
 import java.util.*
 
 class WeatherApiProviderTest {
@@ -30,10 +32,12 @@ class WeatherApiProviderTest {
 
         val provider = WeatherApiProvider()
 
-        val weather = provider.current(Locale.SILVERSTONE)
+        val weather = provider.current(Location.SILVERSTONE, Units.METRIC)
+
+        verify(dependencyProvider.api()).weather("Silverstone, UK", "TestApiKey", "metric")
 
         assertTrue(weather.condition is Clear)
-        assertEquals(weather.temperature, 8.51F)
+        assertEquals(weather.temperature, 9)
     }
 
     @Test(expected = Exception::class)
@@ -41,7 +45,7 @@ class WeatherApiProviderTest {
 
         dependencyProvider.mockWebServer.enqueue(MockResponse().setResponseCode(400))
 
-        WeatherApiProvider().current(Locale.SILVERSTONE)
+        WeatherApiProvider().current(Location.SILVERSTONE, Units.METRIC)
     }
 
     @Test
@@ -51,7 +55,9 @@ class WeatherApiProviderTest {
 
         val provider = WeatherApiProvider()
 
-        val weather = provider.fiveDay(Locale.SILVERSTONE)
+        val weather = provider.fiveDay(Location.SILVERSTONE, Units.METRIC)
+
+        verify(dependencyProvider.api()).forecast("Silverstone, UK", "TestApiKey", "metric")
 
         assertEquals(5, weather.size)
 
@@ -76,6 +82,6 @@ class WeatherApiProviderTest {
 
         dependencyProvider.mockWebServer.enqueue(MockResponse().setResponseCode(400))
 
-        WeatherApiProvider().fiveDay(Locale.SILVERSTONE)
+        WeatherApiProvider().fiveDay(Location.SILVERSTONE, Units.METRIC)
     }
 }

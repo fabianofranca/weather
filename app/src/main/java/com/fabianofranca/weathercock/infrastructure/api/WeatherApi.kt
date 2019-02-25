@@ -2,10 +2,12 @@ package com.fabianofranca.weathercock.infrastructure.api
 
 import retrofit2.Call
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.Query
 
 interface WeatherApi {
     @GET("weather")
+    @Headers("Cache-Control: no-cache")
     fun weather(
         @Query("q") locale: String,
         @Query("APPID") apiKey: String,
@@ -13,6 +15,7 @@ interface WeatherApi {
     ): Call<WeatherRaw>
 
     @GET("forecast")
+    @Headers("Cache-Control: no-cache")
     fun forecast(
         @Query("q") locale: String,
         @Query("APPID") apiKey: String,

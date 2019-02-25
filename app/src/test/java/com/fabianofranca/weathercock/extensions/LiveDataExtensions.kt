@@ -6,12 +6,12 @@ import org.junit.Assert
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
-fun <T> LiveData<T>.verify(body: ((T?)-> Unit)? = null) {
+fun <T> LiveData<T>.verify(body: ((T?) -> Unit)? = null) {
     val latch = CountDownLatch(1)
 
     var verify = false
 
-    var observer : Observer<T>? = null
+    var observer: Observer<T>? = null
 
     observer = Observer {
         latch.countDown()
@@ -34,7 +34,7 @@ fun <T> LiveData<T>.await(timeout: Long = 2) {
 
     var verify = false
 
-    var observer : Observer<T>? = null
+    var observer: Observer<T>? = null
 
     observer = Observer {
         latch.countDown()

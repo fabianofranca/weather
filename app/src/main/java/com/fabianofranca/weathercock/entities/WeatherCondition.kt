@@ -1,6 +1,6 @@
 package com.fabianofranca.weathercock.entities
 
-sealed class WeatherCondition(val ids: IntRange, val description: String = this::class.simpleName!!) {
+sealed class WeatherCondition(val ids: IntRange, val description: String) {
 
     companion object {
         fun fromId(id: Int) = when {
@@ -16,18 +16,18 @@ sealed class WeatherCondition(val ids: IntRange, val description: String = this:
     }
 }
 
-object Thunderstorm: WeatherCondition(200..232)
+object Thunderstorm : WeatherCondition(200..232, "Thunderstorm")
 
-object Drizzle: WeatherCondition(300..321)
+object Drizzle : WeatherCondition(300..321, "Drizzle")
 
-object Rain: WeatherCondition(500..531)
+object Rain : WeatherCondition(500..531, "Rain")
 
-object Snow: WeatherCondition(600..622)
+object Snow : WeatherCondition(600..622, "Snow")
 
-object Atmosphere: WeatherCondition(701..781)
+object Atmosphere : WeatherCondition(701..781, "Mist")
 
-object Clear: WeatherCondition(800..800)
+object Clear : WeatherCondition(800..800, "Clear")
 
-object Clouds: WeatherCondition(801..804)
+object Clouds : WeatherCondition(801..804, "Clouds")
 
-object Undefined: WeatherCondition(0..0)
+object Undefined : WeatherCondition(0..0, "Undefined")

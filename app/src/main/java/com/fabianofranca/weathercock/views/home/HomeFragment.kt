@@ -1,4 +1,4 @@
-package com.fabianofranca.weathercock.view.home
+package com.fabianofranca.weathercock.views.home
 
 
 import android.os.Bundle
@@ -10,8 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
-import com.fabianofranca.weathercock.view.locations.LocationsFragment
-import com.fabianofranca.weathercock.view.weather.WeatherFragment
+import com.fabianofranca.weathercock.views.locations.LocationsFragment
+import com.fabianofranca.weathercock.views.weather.WeatherFragment
 import com.squareup.otto.Subscribe
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*

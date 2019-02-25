@@ -1,9 +1,9 @@
-package com.fabianofranca.weathercock.view.main
+package com.fabianofranca.weathercock.views.main
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.fabianofranca.weathercock.R
-import com.fabianofranca.weathercock.view.launch.LaunchFragment
+import com.fabianofranca.weathercock.views.launch.LaunchFragment
 
 class MainActivity : AppCompatActivity() {
 

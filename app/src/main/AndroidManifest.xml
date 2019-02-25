@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme.Launcher"
         tools:ignore="GoogleAppIndexingWarning">
         <activity
-            android:name="com.fabianofranca.weathercock.view.main.MainActivity"
+            android:name="com.fabianofranca.weathercock.views.main.MainActivity"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

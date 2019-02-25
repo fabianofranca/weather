@@ -16,7 +16,7 @@ class DynamicViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
             _swipeOrientation = value
             initSwipeMethods()
         }
-        get(){
+        get() {
             return _swipeOrientation
         }
 
@@ -62,7 +62,7 @@ class DynamicViewPager @JvmOverloads constructor(context: Context, attrs: Attrib
         setCurrentItemInternal(item, smoothScroll, false, 50)
     }
 
-    private class VerticalPageTransformer: ViewPager.PageTransformer {
+    private class VerticalPageTransformer : ViewPager.PageTransformer {
 
         override fun transformPage(page: View, position: Float) {
             when {

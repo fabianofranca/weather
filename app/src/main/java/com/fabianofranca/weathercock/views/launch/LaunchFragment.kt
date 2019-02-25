@@ -1,4 +1,4 @@
-package com.fabianofranca.weathercock.view.launch
+package com.fabianofranca.weathercock.views.launch
 
 
 import android.os.Build
@@ -11,7 +11,7 @@ import android.transition.TransitionSet
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.fabianofranca.weathercock.view.home.HomeFragment
+import com.fabianofranca.weathercock.views.home.HomeFragment
 import kotlinx.android.synthetic.main.fragment_launch.view.*
 
 class LaunchFragment : Fragment() {

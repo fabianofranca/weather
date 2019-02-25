@@ -1,36 +1,45 @@
 package com.fabianofranca.weathercock.providers
 
-import com.fabianofranca.weathercock.entities.Locale
+import com.fabianofranca.weathercock.entities.Location
 import com.fabianofranca.weathercock.entities.Units
 import com.fabianofranca.weathercock.entities.Weather
 import com.fabianofranca.weathercock.entities.WeatherCondition
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.api.WeatherApi
 import java.util.*
+import kotlin.math.roundToInt
 
 class WeatherApiProvider(
     private val api: WeatherApi = DependencyProvider.Current.api(),
-    private val apiKey: String = DependencyProvider.Current.apiKey(),
-    private val units: Units = DependencyProvider.Current.units()
+    private val apiKey: String = DependencyProvider.Current.apiKey()
 ) : WeatherProvider {
 
-    override fun current(locale: Locale): Weather {
+    override fun current(locale: Location, units: Units): Weather {
+
         val raw = api.weather(locale.value, apiKey, units.value).execute()
 
         raw.body()?.let { r ->
-            return Weather(WeatherCondition.fromId(r.weather.first().id), r.main.temp, r.dt)
+            return Weather(
+                WeatherCondition.fromId(r.weather.first().id),
+                r.main.temp.roundToInt(),
+                r.dt
+            )
         }
 
         throw Exception()
     }
 
-    override fun fiveDay(locale: Locale): List<Weather> {
+    override fun fiveDay(locale: Location, units: Units): List<Weather> {
 
         val raw = api.forecast(locale.value, apiKey, units.value).execute()
 
         raw.body()?.let { r ->
             return r.list.map {
-                Weather(WeatherCondition.fromId(it.weather.first().id), it.main.temp, it.dt)
+                Weather(
+                    WeatherCondition.fromId(it.weather.first().id),
+                    it.main.temp.roundToInt(),
+                    it.dt
+                )
             }.filter {
                 val calendar = Calendar.getInstance().apply { time = it.date }
 

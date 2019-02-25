@@ -19,7 +19,11 @@
         <item name="android:fontFamily">@font/roboto_light</item>
     </style>
 
-    <style name="AppTheme.TextViewPrimary" parent="android:Widget.TextView">
+    <style name="AppTheme.TextView" parent="android:Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.RobotoLight</item>
+    </style>
+
+    <style name="AppTheme.TextViewPrimary" parent="AppTheme.TextView">
         <item name="android:textAppearance">@style/TextAppearance.RobotoLight</item>
         <item name="android:textColor">@color/colorPrimary</item>
     </style>

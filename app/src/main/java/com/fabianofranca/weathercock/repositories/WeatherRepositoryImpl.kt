@@ -2,35 +2,48 @@ package com.fabianofranca.weathercock.repositories
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
-import com.fabianofranca.weathercock.entities.Locale
+import com.fabianofranca.weathercock.entities.Location
+import com.fabianofranca.weathercock.entities.Units
 import com.fabianofranca.weathercock.entities.Weather
+import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.providers.WeatherApiProvider
 import com.fabianofranca.weathercock.providers.WeatherProvider
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class WeatherRepositoryImpl(private val provider: WeatherProvider = WeatherApiProvider()) :
     WeatherRepository {
 
-    private val current = MutableLiveData<Weather>()
+    private val weather = MutableLiveData<Weather>()
 
-    private val fiveDay = MutableLiveData<List<Weather>>()
+    override fun weather(): LiveData<Weather> {
+        val location = DependencyProvider.Current.location()
+        val units = DependencyProvider.Current.units()
 
-    override fun current(locale: Locale): LiveData<Weather> {
+        GlobalScope.launch(DependencyProvider.Current.uiDispatcher()) {
+            val current = currentAsync(location, units)
+            val fiveDays = fiveDaysAsync(location, units)
 
-        GlobalScope.launch {
-            current.value = provider.current(locale)
+            weather.value = current.await().apply { this.fiveDays = fiveDays.await() }
         }
 
-        return current
+        return weather
     }
 
-    override fun fiveDay(locale: Locale): LiveData<List<Weather>> {
-
-        GlobalScope.launch {
-            fiveDay.value = provider.fiveDay(locale)
+    private fun currentAsync(location: Location, units: Units) =
+        GlobalScope.async(DependencyProvider.Current.ioDispatcher()) {
+            provider.current(
+                location,
+                units
+            )
         }
 
-        return fiveDay
-    }
+    private fun fiveDaysAsync(location: Location, units: Units) =
+        GlobalScope.async(DependencyProvider.Current.ioDispatcher()) {
+            provider.fiveDay(
+                location,
+                units
+            )
+        }
 }
