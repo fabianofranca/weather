@@ -134,7 +134,11 @@ class WeatherViewModelTest {
 
     @Test
     fun currentLocation_shouldWork() {
-        DependencyProvider.Current.injectLocation(Location.SAO_PAULO)
+        val location = MutableLiveData<Location>().apply {
+            value = Location.SAO_PAULO
+        }
+
+        `when`(repository.location()).thenReturn(location)
 
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 

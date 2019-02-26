@@ -33,8 +33,6 @@ class UnitTestMockDependencyProvider : DependencyProvider {
 
     private var units = Units.METRIC
 
-    private var location = Location.SILVERSTONE
-
     init {
 
         DependencyProvider.Current = this
@@ -61,12 +59,6 @@ class UnitTestMockDependencyProvider : DependencyProvider {
     }
 
     override fun units() = units
-
-    override fun injectLocation(location: Location) {
-        this.location = location
-    }
-
-    override fun location() = location
 
     override fun uiDispatcher() = Dispatchers.Default
 

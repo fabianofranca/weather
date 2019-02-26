@@ -50,8 +50,6 @@ class ReleaseDependencyProvider(private val application: WeatherApplication) : D
 
     private var units: Units = Units.METRIC
 
-    private var location: Location = Location.SILVERSTONE
-
     private val viewModels = mapOf<Type, ViewModel>(
         WeatherViewModel::class.java to WeatherViewModel(application, bus),
         HomeViewModel::class.java to HomeViewModel(bus),
@@ -75,12 +73,6 @@ class ReleaseDependencyProvider(private val application: WeatherApplication) : D
     }
 
     override fun units() = units
-
-    override fun injectLocation(location: Location) {
-        this.location = location
-    }
-
-    override fun location(): Location = location
 
     override fun uiDispatcher() = Dispatchers.Main
 

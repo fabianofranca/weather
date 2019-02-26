@@ -20,7 +20,7 @@ class HomeViewModel(bus: Bus) : ViewModel() {
         }
 
     @Subscribe
-    fun changePage(event: ChangePageEvent) {
+    fun changePageSubscribe(event: ChangePageEvent) {
         _page.value = event.page
     }
 }

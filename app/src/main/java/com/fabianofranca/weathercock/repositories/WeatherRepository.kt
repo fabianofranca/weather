@@ -1,8 +1,11 @@
 package com.fabianofranca.weathercock.repositories
 
 import android.arch.lifecycle.LiveData
+import com.fabianofranca.weathercock.entities.Location
 import com.fabianofranca.weathercock.entities.Weather
 
 interface WeatherRepository {
-    fun weather(): LiveData<Weather>
+    val failure: LiveData<Exception>
+    fun weather(location: Location? = null): LiveData<Weather>
+    fun location(): LiveData<Location>
 }

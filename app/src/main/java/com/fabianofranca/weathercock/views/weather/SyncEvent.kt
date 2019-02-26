@@ -1,3 +1,5 @@
 package com.fabianofranca.weathercock.views.weather
 
-class SyncEvent
+import com.fabianofranca.weathercock.entities.Location
+
+data class SyncEvent(val location: Location)

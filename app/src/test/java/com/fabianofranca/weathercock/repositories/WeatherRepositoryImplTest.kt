@@ -29,21 +29,20 @@ class WeatherRepositoryImplTest {
     private val weatherCurrent = Weather(Clear, 0, Calendar.getInstance().time)
     private val weatherDay = Weather(Rain, 0, Calendar.getInstance().time)
 
-    private val location = Location.SAO_PAULO
+    private val defaultLocation = Location.SILVERSTONE
     private val units = Units.METRIC
 
     init {
         UnitTestMockDependencyProvider()
 
         DependencyProvider.Current.injectUnits(units)
-        DependencyProvider.Current.injectLocation(location)
     }
 
     @Test
     fun weather_shouldWork() {
 
-        `when`(provider.current(location, units)).thenReturn(weatherCurrent)
-        `when`(provider.fiveDay(location, units)).thenReturn(listOf(weatherDay))
+        `when`(provider.current(defaultLocation, units)).thenReturn(weatherCurrent)
+        `when`(provider.fiveDay(defaultLocation, units)).thenReturn(listOf(weatherDay))
 
         val repository = WeatherRepositoryImpl(provider)
 
@@ -52,14 +51,14 @@ class WeatherRepositoryImplTest {
             assertEquals(weatherDay, it?.fiveDays?.first())
         }
 
-        verify(provider).current(location, units)
-        verify(provider).fiveDay(location, units)
+        verify(provider).current(defaultLocation, units)
+        verify(provider).fiveDay(defaultLocation, units)
     }
 
     @Test(expected = Exception::class)
     fun weather_shouldThrowExceptionWhenCurrentFail() {
-        `when`(provider.current(location, units)).thenThrow(Exception())
-        `when`(provider.fiveDay(location, units)).thenReturn(listOf(weatherDay))
+        `when`(provider.current(defaultLocation, units)).thenThrow(Exception())
+        `when`(provider.fiveDay(defaultLocation, units)).thenReturn(listOf(weatherDay))
 
         val repository = WeatherRepositoryImpl(provider)
 
@@ -68,7 +67,7 @@ class WeatherRepositoryImplTest {
 
     @Test(expected = Exception::class)
     fun weather_shouldThrowExceptionWhenFiveDayFail() {
-        `when`(provider.fiveDay(location, units)).thenThrow(Exception())
+        `when`(provider.fiveDay(defaultLocation, units)).thenThrow(Exception())
 
         val repository = WeatherRepositoryImpl(provider)
 

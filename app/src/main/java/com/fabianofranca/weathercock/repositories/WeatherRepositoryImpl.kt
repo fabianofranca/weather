@@ -17,15 +17,42 @@ class WeatherRepositoryImpl(private val provider: WeatherProvider = WeatherApiPr
 
     private val weather = MutableLiveData<Weather>()
 
-    override fun weather(): LiveData<Weather> {
-        val location = DependencyProvider.Current.location()
+    private val location = MutableLiveData<Location>()
+
+    private val _failure = MutableLiveData<Exception>()
+
+    override val failure: LiveData<Exception>
+        get() {
+            return _failure
+        }
+
+    override fun weather(location: Location?): LiveData<Weather> {
         val units = DependencyProvider.Current.units()
 
         GlobalScope.launch(DependencyProvider.Current.uiDispatcher()) {
-            val current = currentAsync(location, units)
-            val fiveDays = fiveDaysAsync(location, units)
 
-            weather.value = current.await().apply { this.fiveDays = fiveDays.await() }
+            try {
+                var newLocation = Location.SILVERSTONE
+
+                location?.let {
+                    newLocation = it
+                } ?: run {
+                    this@WeatherRepositoryImpl.location.value?.let {
+                        newLocation = it
+                    }
+                }
+
+                val current = currentAsync(newLocation, units)
+                val fiveDays = fiveDaysAsync(newLocation, units)
+
+                weather.value = current.await().apply { this.fiveDays = fiveDays.await() }
+
+                if (this@WeatherRepositoryImpl.location.value != newLocation) {
+                    this@WeatherRepositoryImpl.location.value = newLocation
+                }
+            } catch (e: Exception) {
+                _failure.value = e
+            }
         }
 
         return weather
@@ -46,4 +73,6 @@ class WeatherRepositoryImpl(private val provider: WeatherProvider = WeatherApiPr
                 units
             )
         }
+
+    override fun location() = location
 }

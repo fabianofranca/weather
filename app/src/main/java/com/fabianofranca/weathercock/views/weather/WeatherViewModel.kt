@@ -8,12 +8,12 @@ import android.arch.lifecycle.Transformations
 import android.support.v4.content.ContextCompat
 import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.entities.*
-import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.network.InternetAvailableEvent
 import com.fabianofranca.weathercock.repositories.WeatherRepository
 import com.fabianofranca.weathercock.repositories.WeatherRepositoryImpl
 import com.fabianofranca.weathercock.views.home.ChangePageEvent
 import com.fabianofranca.weathercock.views.home.Page
+import com.fabianofranca.weathercock.views.locations.ChangeLocationEvent
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 import java.text.SimpleDateFormat
@@ -35,9 +35,9 @@ class WeatherViewModel(
 
     val weatherForecasts: LiveData<List<Weather>> = Transformations.map(repository.weather()) {
 
-        _syncStatus.value = SyncStatus.ONLINE
-
         it?.let { w ->
+            _syncStatus.value = SyncStatus.ONLINE
+
             val days = mutableListOf(w)
 
             w.fiveDays?.let { d ->
@@ -54,10 +54,6 @@ class WeatherViewModel(
         }
     }
 
-    private val _location = MutableLiveData<String>().apply {
-        value = DependencyProvider.Current.location().value.toLowerCase()
-    }
-
     val temperature: LiveData<String> = Transformations.map(weatherForecast) {
         "${it.temperature}$degree"
     }
@@ -70,10 +66,13 @@ class WeatherViewModel(
         conditionIcon(it.condition)
     }
 
-    val location: LiveData<String>
-        get() {
-            return _location
+    val location: LiveData<String> = Transformations.map(repository.location()) {
+        it?.let { location ->
+            bus.post(ChangeLocationEvent(location))
         }
+
+        it?.value?.toLowerCase()
+    }
 
     val days: LiveData<List<DayViewModel>> = Transformations.map(weatherForecasts) {
         val formatter = SimpleDateFormat("dd/MM", Locale.US)
@@ -113,12 +112,19 @@ class WeatherViewModel(
             return _syncStatus
         }
 
-    val syncIcon = Transformations.map(_syncStatus) {
+    val syncIcon: LiveData<Int> = Transformations.map(_syncStatus) {
         it?.let { status ->
             when (status) {
                 SyncStatus.LOADING, SyncStatus.ONLINE -> R.drawable.ic_sync
                 SyncStatus.OFFLINE -> R.drawable.ic_offline
             }
+        }
+    }
+
+    val failure: LiveData<String> = Transformations.map(repository.failure) {
+        it?.let { e ->
+            _syncStatus.value = SyncStatus.ONLINE
+            application.getString(R.string.failure)
         }
     }
 
@@ -148,26 +154,33 @@ class WeatherViewModel(
         Undefined -> R.drawable.ic_weathercock_line
     }
 
-    fun sync(): Boolean {
+    fun sync() {
+        sync(null)
+    }
+
+    private fun sync(location: Location?): Boolean {
         _syncStatus.value?.let {
             if (it != SyncStatus.ONLINE) return@sync false
         }
 
         _syncStatus.value = SyncStatus.LOADING
-        repository.weather()
+
+        location?.let {
+            repository.weather(it)
+        } ?: run {
+            repository.weather()
+        }
+
         return true
     }
 
     @Subscribe
-    fun sync(event: SyncEvent) {
-        if (sync()) {
-            _location.value = DependencyProvider.Current.location().value
-            bus.post(ChangePageEvent(Page.WEATHER))
-        }
+    fun syncSubscribe(event: SyncEvent) {
+        if (sync(event.location)) bus.post(ChangePageEvent(Page.WEATHER))
     }
 
     @Subscribe
-    fun internetAvaiable(event: InternetAvailableEvent) {
+    fun internetAvaiableSubscribe(event: InternetAvailableEvent) {
         _syncStatus.value = if (event.connected) SyncStatus.ONLINE else SyncStatus.OFFLINE
     }
 }

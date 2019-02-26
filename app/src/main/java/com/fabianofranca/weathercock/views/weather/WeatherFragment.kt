@@ -7,6 +7,7 @@ import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewCompat
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.fabianofranca.weathercock.databinding.FragmentWeatherBinding
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.views.home.ChangePageEvent
 import com.fabianofranca.weathercock.views.home.Page
+
 
 class WeatherFragment : Fragment() {
 
@@ -71,6 +73,20 @@ class WeatherFragment : Fragment() {
                     )
                 } else {
                     binding.sync.animation?.cancel()
+                }
+            }
+        })
+
+        viewModel.failure.observe(this, Observer {
+            it?.let { message ->
+                context?.let { ctx ->
+                    val builder = AlertDialog.Builder(ctx)
+
+                    builder.setMessage(message).setTitle(R.string.app_name)
+
+                    val dialog = builder.create()
+
+                    dialog.show()
                 }
             }
         })

@@ -28,10 +28,6 @@ interface DependencyProvider {
 
     fun units(): Units
 
-    fun injectLocation(location: Location)
-
-    fun location(): Location
-
     fun uiDispatcher(): CoroutineContext
 
     fun ioDispatcher(): CoroutineContext

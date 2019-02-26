@@ -5,4 +5,5 @@
     <string name="fahrenheit">°f</string>
     <string name="today">today</string>
     <string name="developed_by">developed by fabiano frança</string>
+    <string name="failure">Oops! Something went wrong.</string>
 </resources>
