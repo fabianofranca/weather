@@ -1,51 +1,42 @@
 package com.fabianofranca.weathercock.views.locations
 
 
+import android.arch.lifecycle.ViewModelProviders
+import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.fabianofranca.weathercock.R
-import com.fabianofranca.weathercock.entities.Location
+import com.fabianofranca.weathercock.databinding.FragmentLocationsBinding
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
-import com.fabianofranca.weathercock.views.weather.ReloadWeatherForecastsEvent
-import kotlinx.android.synthetic.main.fragment_locations.view.*
 
 class LocationsFragment : Fragment() {
+
+    private lateinit var binding: FragmentLocationsBinding
+
+    private val factory = DependencyProvider.Current.viewModelFactory()
+
+    private lateinit var viewModel: LocationsViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
 
-        val view = inflater.inflate(R.layout.fragment_locations, container, false)
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_locations, container, false)
 
-        setupMenu(view)
+        binding.lifecycleOwner = this
 
-        return view
+        return binding.root
     }
 
-    fun setupMenu(view: View) {
-        view.silverstoneText.setOnClickListener {
-            DependencyProvider.Current.injectLocation(Location.SILVERSTONE)
-            DependencyProvider.Current.bus().post(ReloadWeatherForecastsEvent())
-        }
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
 
-        view.saoPauloText.setOnClickListener {
-            DependencyProvider.Current.injectLocation(Location.SAO_PAULO)
-            DependencyProvider.Current.bus().post(ReloadWeatherForecastsEvent())
-        }
+        viewModel = ViewModelProviders.of(this, factory)[LocationsViewModel::class.java]
 
-        view.melbourneText.setOnClickListener {
-            DependencyProvider.Current.injectLocation(Location.MELBOURNE)
-            DependencyProvider.Current.bus().post(ReloadWeatherForecastsEvent())
-        }
-
-        view.monacoText.setOnClickListener {
-            DependencyProvider.Current.injectLocation(Location.MONACO)
-            DependencyProvider.Current.bus().post(ReloadWeatherForecastsEvent())
-        }
+        binding.viewModel = viewModel
     }
 }

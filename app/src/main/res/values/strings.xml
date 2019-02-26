@@ -4,9 +4,5 @@
     <string name="celsius">°c</string>
     <string name="fahrenheit">°f</string>
     <string name="today">today</string>
-    <string name="sao_paulo">são paulo, br</string>
-    <string name="silverstone_uk">silverstone, uk</string>
-    <string name="melbourne_ua">melbourne, ua</string>
-    <string name="monte_carlo_mc">monte carlo, mc</string>
     <string name="developed_by">developed by fabiano frança</string>
 </resources>

@@ -5,13 +5,15 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.fabianofranca.weathercock.views.locations.LocationsViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".views.locations.LocationsFragment">
-
 
         <!--
         TODO: Add in next release
@@ -55,51 +57,63 @@
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/silverstoneText"
-                style="@style/AppTheme.TextViewPrimary"
+                style="@style/AppTheme.TextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:lines="1"
-                android:text="@string/silverstone_uk"
+                android:onClick="@{() -> viewModel.updateCurrentLocation(viewModel.locations[0].location)}"
+                android:text="@{viewModel.locations[0].location.value}"
                 android:textAllCaps="true"
-                android:textSize="28sp" />
+                android:textColor="@{viewModel.locations[0].color}"
+                android:textSize="28sp"
+                tools:text="Silverstone, UK" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/saoPauloText"
-                style="@style/AppTheme.TextViewSecondary"
+                style="@style/AppTheme.TextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:lines="1"
-                android:text="@string/sao_paulo"
+                android:onClick="@{() -> viewModel.updateCurrentLocation(viewModel.locations[1].location)}"
+                android:text="@{viewModel.locations[1].location.value}"
                 android:textAllCaps="true"
-                android:textSize="28sp" />
+                android:textColor="@{viewModel.locations[1].color}"
+                android:textSize="28sp"
+                tools:text="São Paulo, BR" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/melbourneText"
-                style="@style/AppTheme.TextViewSecondary"
+                style="@style/AppTheme.TextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:lines="1"
-                android:text="@string/melbourne_ua"
+                android:onClick="@{() -> viewModel.updateCurrentLocation(viewModel.locations[2].location)}"
+                android:text="@{viewModel.locations[2].location.value}"
                 android:textAllCaps="true"
-                android:textSize="28sp" />
+                android:textColor="@{viewModel.locations[2].color}"
+                android:textSize="28sp"
+                tools:text="Melbourne, AU" />
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/monacoText"
-                style="@style/AppTheme.TextViewSecondary"
+                style="@style/AppTheme.TextView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:lines="1"
-                android:text="@string/monte_carlo_mc"
+                android:onClick="@{() -> viewModel.updateCurrentLocation(viewModel.locations[3].location)}"
+                android:text="@{viewModel.locations[3].location.value}"
                 android:textAllCaps="true"
-                android:textSize="28sp" />
+                android:textColor="@{viewModel.locations[3].color}"
+                android:textSize="28sp"
+                tools:text="Monaco, MC" />
         </LinearLayout>
 
         <android.support.constraint.Guideline
