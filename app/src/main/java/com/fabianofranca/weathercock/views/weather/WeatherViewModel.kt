@@ -181,6 +181,6 @@ class WeatherViewModel(
 
     @Subscribe
     fun internetAvaiableSubscribe(event: InternetAvailableEvent) {
-        _syncStatus.value = if (event.connected) SyncStatus.ONLINE else SyncStatus.OFFLINE
+        _syncStatus.value = if (event.connected) _syncStatus.value else SyncStatus.OFFLINE
     }
 }
