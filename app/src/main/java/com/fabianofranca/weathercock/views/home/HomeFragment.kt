@@ -1,6 +1,8 @@
 package com.fabianofranca.weathercock.views.home
 
 
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -12,17 +14,19 @@ import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.views.locations.LocationsFragment
 import com.fabianofranca.weathercock.views.weather.WeatherFragment
-import com.squareup.otto.Subscribe
 import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.fragment_home.view.*
 
 class HomeFragment : Fragment() {
 
+    private val factory = DependencyProvider.Current.viewModelFactory()
+
+    private lateinit var viewModel: HomeViewModel
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        DependencyProvider.Current.bus().register(this)
 
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
@@ -36,6 +40,18 @@ class HomeFragment : Fragment() {
         return view
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this, factory)[HomeViewModel::class.java]
+
+        viewModel.page.observe(this, Observer {
+            it?.let { page ->
+                viewPager.setCurrentItem(page.position, true)
+            }
+        })
+    }
+
     private class HomePageAdapter(fragmentManager: FragmentManager) :
         FragmentStatePagerAdapter(fragmentManager) {
 
@@ -46,10 +62,5 @@ class HomeFragment : Fragment() {
         }
 
         override fun getCount() = 2
-    }
-
-    @Subscribe
-    fun changePage(event: ChangePageEvent) {
-        viewPager.setCurrentItem(event.page.position, true)
     }
 }

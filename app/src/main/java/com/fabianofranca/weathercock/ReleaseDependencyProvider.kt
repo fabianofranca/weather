@@ -7,6 +7,7 @@ import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.api.WeatherApi
 import com.fabianofranca.weathercock.infrastructure.json.DateAdapter
 import com.fabianofranca.weathercock.views.ViewModelFactory
+import com.fabianofranca.weathercock.views.home.HomeViewModel
 import com.fabianofranca.weathercock.views.weather.WeatherViewModel
 import com.squareup.moshi.Moshi
 import com.squareup.otto.Bus
@@ -49,7 +50,8 @@ class ReleaseDependencyProvider(private val application: WeatherApplication) : D
     private var location: Location = Location.MELBOURNE
 
     private val viewModels = mapOf<Type, ViewModel>(
-        WeatherViewModel::class.java to WeatherViewModel(application, bus)
+        WeatherViewModel::class.java to WeatherViewModel(application, bus),
+        HomeViewModel::class.java to HomeViewModel(bus)
     )
 
     override fun application() = application
