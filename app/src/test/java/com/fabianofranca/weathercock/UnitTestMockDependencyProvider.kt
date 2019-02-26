@@ -71,4 +71,6 @@ class UnitTestMockDependencyProvider : DependencyProvider {
     override fun uiDispatcher() = Dispatchers.Default
 
     override fun ioDispatcher() = Dispatchers.Default
+
+    override fun connected() = true
 }

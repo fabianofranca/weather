@@ -59,10 +59,10 @@ class WeatherFragment : Fragment() {
             viewModel.selectedDayIndex.value = 0
         })
 
-        viewModel.sync.observe(this, Observer {
+        viewModel.syncStatus.observe(this, Observer {
             it?.let { sync ->
 
-                if (sync) {
+                if (sync == SyncStatus.LOADING) {
                     binding.sync.startAnimation(
                         AnimationUtils.loadAnimation(
                             activity,

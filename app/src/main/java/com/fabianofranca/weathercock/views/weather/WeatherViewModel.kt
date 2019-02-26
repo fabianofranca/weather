@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat
 import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.entities.*
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
+import com.fabianofranca.weathercock.infrastructure.network.InternetAvailableEvent
 import com.fabianofranca.weathercock.repositories.WeatherRepository
 import com.fabianofranca.weathercock.repositories.WeatherRepositoryImpl
 import com.fabianofranca.weathercock.views.home.ChangePageEvent
@@ -34,7 +35,7 @@ class WeatherViewModel(
 
     val weatherForecasts: LiveData<List<Weather>> = Transformations.map(repository.weather()) {
 
-        _sync.value = false
+        _syncStatus.value = SyncStatus.ONLINE
 
         it?.let { w ->
             val days = mutableListOf(w)
@@ -105,12 +106,21 @@ class WeatherViewModel(
         }
     }
 
-    private val _sync = MutableLiveData<Boolean>().apply { value = true }
+    private val _syncStatus = MutableLiveData<SyncStatus>().apply { value = SyncStatus.LOADING }
 
-    val sync: LiveData<Boolean>
+    val syncStatus: LiveData<SyncStatus>
         get() {
-            return _sync
+            return _syncStatus
         }
+
+    val syncIcon = Transformations.map(_syncStatus) {
+        it?.let { status ->
+            when (status) {
+                SyncStatus.LOADING, SyncStatus.ONLINE -> R.drawable.ic_sync
+                SyncStatus.OFFLINE -> R.drawable.ic_offline
+            }
+        }
+    }
 
     init {
         bus.register(this)
@@ -138,12 +148,12 @@ class WeatherViewModel(
         Undefined -> R.drawable.ic_weathercock_line
     }
 
-    fun sync() : Boolean {
-        _sync.value?.let {
-            if (it) return@sync false
+    fun sync(): Boolean {
+        _syncStatus.value?.let {
+            if (it != SyncStatus.ONLINE) return@sync false
         }
 
-        _sync.value = true
+        _syncStatus.value = SyncStatus.LOADING
         repository.weather()
         return true
     }
@@ -154,5 +164,10 @@ class WeatherViewModel(
             _location.value = DependencyProvider.Current.location().value
             bus.post(ChangePageEvent(Page.WEATHER))
         }
+    }
+
+    @Subscribe
+    fun internetAvaiable(event: InternetAvailableEvent) {
+        _syncStatus.value = if (event.connected) SyncStatus.ONLINE else SyncStatus.OFFLINE
     }
 }

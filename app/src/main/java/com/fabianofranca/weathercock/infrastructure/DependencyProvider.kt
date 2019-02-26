@@ -36,6 +36,8 @@ interface DependencyProvider {
 
     fun ioDispatcher(): CoroutineContext
 
+    fun connected(): Boolean
+
     companion object {
         lateinit var Current: DependencyProvider
     }

@@ -4,6 +4,7 @@
     package="com.fabianofranca.weathercock">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:name="com.fabianofranca.weathercock.WeatherApplication"

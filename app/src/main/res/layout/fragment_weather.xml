@@ -161,7 +161,8 @@
             android:padding="2dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@+id/locationGuide"
-            app:srcCompat="@drawable/ic_sync" />
+            app:srcCompat="@{viewModel.syncIcon}"
+            tools:srcCompat="@drawable/ic_sync" />
 
         <!--
         TODO: Add in next release

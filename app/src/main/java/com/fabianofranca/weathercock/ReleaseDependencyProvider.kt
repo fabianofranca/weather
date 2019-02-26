@@ -1,6 +1,8 @@
 package com.fabianofranca.weathercock
 
 import android.arch.lifecycle.ViewModel
+import android.content.Context
+import android.net.ConnectivityManager
 import com.fabianofranca.weathercock.entities.Location
 import com.fabianofranca.weathercock.entities.Units
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
@@ -83,4 +85,12 @@ class ReleaseDependencyProvider(private val application: WeatherApplication) : D
     override fun uiDispatcher() = Dispatchers.Main
 
     override fun ioDispatcher() = Dispatchers.IO
+
+    override fun connected(): Boolean {
+        val cm = application.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val activeNetwork = cm.activeNetworkInfo
+
+        return activeNetwork != null && activeNetwork.isConnected
+    }
+
 }
