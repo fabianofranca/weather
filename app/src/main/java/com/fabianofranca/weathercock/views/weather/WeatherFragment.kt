@@ -10,6 +10,7 @@ import android.support.v4.view.ViewCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.databinding.FragmentWeatherBinding
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
@@ -47,38 +48,31 @@ class WeatherFragment : Fragment() {
 
         viewModel = ViewModelProviders.of(this, factory)[WeatherViewModel::class.java]
 
-        binding.viewmodel = viewModel
+        binding.viewModel = viewModel
 
-        viewModel.weatherForecasts.observe(this, Observer {
-            viewModel.day.value = 0
-        })
-
-        setupDays()
+        setupObservers()
     }
 
-    private fun setupDays() {
-        binding.day1Include.dayContainer.setOnClickListener {
-            viewModel.day.value = 0
-        }
+    private fun setupObservers() {
 
-        binding.day2Include.dayContainer.setOnClickListener {
-            viewModel.day.value = 1
-        }
+        viewModel.weatherForecasts.observe(this, Observer {
+            viewModel.selectedDayIndex.value = 0
+        })
 
-        binding.day3Include.dayContainer.setOnClickListener {
-            viewModel.day.value = 2
-        }
+        viewModel.sync.observe(this, Observer {
+            it?.let { sync ->
 
-        binding.day4Include.dayContainer.setOnClickListener {
-            viewModel.day.value = 3
-        }
-
-        binding.day5Include.dayContainer.setOnClickListener {
-            viewModel.day.value = 4
-        }
-
-        binding.day6Include.dayContainer.setOnClickListener {
-            viewModel.day.value = 5
-        }
+                if (sync) {
+                    binding.sync.startAnimation(
+                        AnimationUtils.loadAnimation(
+                            activity,
+                            R.anim.rotate
+                        )
+                    )
+                } else {
+                    binding.sync.animation?.cancel()
+                }
+            }
+        })
     }
 }

@@ -48,7 +48,7 @@ class WeatherViewModelTest {
 
         viewModel.weatherForecasts.await()
 
-        viewModel.day.value = 0
+        viewModel.selectedDayIndex.value = 0
 
         viewModel.temperature.verify {
             assertEquals("26°", it)
@@ -67,7 +67,7 @@ class WeatherViewModelTest {
 
         viewModel.weatherForecasts.await()
 
-        viewModel.day.value = 0
+        viewModel.selectedDayIndex.value = 0
 
         viewModel.condition.verify {
             assertEquals("clear", it)
@@ -125,7 +125,7 @@ class WeatherViewModelTest {
 
         viewModel.weatherForecasts.await()
 
-        viewModel.day.value = 0
+        viewModel.selectedDayIndex.value = 0
 
         viewModel.iconCondition.verify {
             assertEquals(drawable, it)
@@ -199,9 +199,9 @@ class WeatherViewModelTest {
 
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 
-        viewModel.day.value = 1
+        viewModel.selectedDayIndex.value = 1
 
-        viewModel.day.await()
+        viewModel.selectedDayIndex.await()
 
         viewModel.days.verify {
             val expectedDay = SimpleDateFormat("dd/MM", Locale.US).format(tomorrow)

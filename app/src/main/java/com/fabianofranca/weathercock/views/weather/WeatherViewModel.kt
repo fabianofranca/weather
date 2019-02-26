@@ -24,7 +24,7 @@ class WeatherViewModel(
     private val repository: WeatherRepository = WeatherRepositoryImpl()
 ) : AndroidViewModel(application) {
 
-    val day = MutableLiveData<Int>()
+    val selectedDayIndex = MutableLiveData<Int>()
 
     private val degree = application.getString(R.string.degree)
 
@@ -33,6 +33,9 @@ class WeatherViewModel(
     private val unselectedColor = ContextCompat.getColor(application, R.color.colorSecondary)
 
     val weatherForecasts: LiveData<List<Weather>> = Transformations.map(repository.weather()) {
+
+        _sync.value = false
+
         it?.let { w ->
             val days = mutableListOf(w)
 
@@ -44,7 +47,7 @@ class WeatherViewModel(
         }
     }
 
-    private val weatherForecast = Transformations.switchMap(day) { index ->
+    private val weatherForecast = Transformations.switchMap(selectedDayIndex) { index ->
         MutableLiveData<Weather>().apply {
             value = weatherForecasts.value?.get(index)
         }
@@ -71,7 +74,7 @@ class WeatherViewModel(
             return _location
         }
 
-    val days: LiveData<List<Day>> = Transformations.map(weatherForecasts) {
+    val days: LiveData<List<DayViewModel>> = Transformations.map(weatherForecasts) {
         val formatter = SimpleDateFormat("dd/MM", Locale.US)
 
         var hasToday = false
@@ -87,13 +90,27 @@ class WeatherViewModel(
                 item
             val degree = application.getString(R.string.degree)
 
-            val color: LiveData<Int> = Transformations.map(this.day) { dayIndex ->
+            val color: LiveData<Int> = Transformations.map(this.selectedDayIndex) { dayIndex ->
                 if (dayIndex == index) selectedColor else unselectedColor
             }
 
-            Day(day, dayIcon(w.condition), "${w.temperature}$degree", color)
+            DayViewModel(
+                index,
+                selectedDayIndex,
+                day,
+                dayIcon(w.condition),
+                "${w.temperature}$degree",
+                color
+            )
         }
     }
+
+    private val _sync = MutableLiveData<Boolean>().apply { value = true }
+
+    val sync: LiveData<Boolean>
+        get() {
+            return _sync
+        }
 
     init {
         bus.register(this)
@@ -121,12 +138,21 @@ class WeatherViewModel(
         Undefined -> R.drawable.ic_weathercock_line
     }
 
-    @Subscribe
-    fun reloadWeatherForecasts(event: ReloadWeatherForecastsEvent) {
+    fun sync() : Boolean {
+        _sync.value?.let {
+            if (it) return@sync false
+        }
+
+        _sync.value = true
         repository.weather()
+        return true
+    }
 
-        _location.value = DependencyProvider.Current.location().value
-
-        bus.post(ChangePageEvent(Page.WEATHER))
+    @Subscribe
+    fun sync(event: SyncEvent) {
+        if (sync()) {
+            _location.value = DependencyProvider.Current.location().value
+            bus.post(ChangePageEvent(Page.WEATHER))
+        }
     }
 }

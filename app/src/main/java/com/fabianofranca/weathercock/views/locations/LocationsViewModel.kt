@@ -8,7 +8,7 @@ import android.support.v4.content.ContextCompat
 import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.entities.Location
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
-import com.fabianofranca.weathercock.views.weather.ReloadWeatherForecastsEvent
+import com.fabianofranca.weathercock.views.weather.SyncEvent
 import com.squareup.otto.Bus
 
 class LocationsViewModel(application: Application, private val bus: Bus) :
@@ -23,16 +23,16 @@ class LocationsViewModel(application: Application, private val bus: Bus) :
 
 
     val locations = listOf(
-        LocationItem(Location.SILVERSTONE, Transformations.map(location) {
+        LocationViewModel(Location.SILVERSTONE, Transformations.map(location) {
             if (it == Location.SILVERSTONE) selectedColor else unselectedColor
         }),
-        LocationItem(Location.SAO_PAULO, Transformations.map(location) {
+        LocationViewModel(Location.SAO_PAULO, Transformations.map(location) {
             if (it == Location.SAO_PAULO) selectedColor else unselectedColor
         }),
-        LocationItem(Location.MELBOURNE, Transformations.map(location) {
+        LocationViewModel(Location.MELBOURNE, Transformations.map(location) {
             if (it == Location.MELBOURNE) selectedColor else unselectedColor
         }),
-        LocationItem(Location.MONACO, Transformations.map(location) {
+        LocationViewModel(Location.MONACO, Transformations.map(location) {
             if (it == Location.MONACO) selectedColor else unselectedColor
         })
     )
@@ -40,6 +40,6 @@ class LocationsViewModel(application: Application, private val bus: Bus) :
     fun updateCurrentLocation(location: Location) {
         DependencyProvider.Current.injectLocation(location)
         this.location.value = location
-        bus.post(ReloadWeatherForecastsEvent())
+        bus.post(SyncEvent())
     }
 }

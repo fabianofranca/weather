@@ -7,13 +7,14 @@
 
         <variable
             name="day"
-            type="com.fabianofranca.weathercock.views.weather.Day" />
+            type="com.fabianofranca.weathercock.views.weather.DayViewModel" />
     </data>
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/dayContainer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:onClick="@{() -> day.select()}">
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/dateText"
