@@ -5,6 +5,6 @@ import com.fabianofranca.weathercock.entities.Units
 import com.fabianofranca.weathercock.entities.Weather
 
 interface WeatherProvider {
-    fun current(locale: Location, units: Units): Weather
-    fun fiveDay(locale: Location, units: Units): List<Weather>
+    fun current(location: Location, units: Units): Weather
+    fun fiveDay(location: Location, units: Units): List<Weather>
 }

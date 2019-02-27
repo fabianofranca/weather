@@ -12,7 +12,7 @@ import org.junit.Test
 import org.mockito.Mockito.verify
 import java.util.*
 
-class WeatherApiProviderTest {
+class WeatherProviderImplTest {
 
     private val dependencyProvider =
         UnitTestMockDependencyProvider()
@@ -30,7 +30,7 @@ class WeatherApiProviderTest {
 
         dependencyProvider.mockWebServer.enqueue(MockResponse().setBody(weatherPath.fileContent()))
 
-        val provider = WeatherApiProvider()
+        val provider = WeatherProviderImpl()
 
         val weather = provider.current(Location.SILVERSTONE, Units.METRIC)
 
@@ -45,7 +45,7 @@ class WeatherApiProviderTest {
 
         dependencyProvider.mockWebServer.enqueue(MockResponse().setResponseCode(400))
 
-        WeatherApiProvider().current(Location.SILVERSTONE, Units.METRIC)
+        WeatherProviderImpl().current(Location.SILVERSTONE, Units.METRIC)
     }
 
     @Test
@@ -53,7 +53,7 @@ class WeatherApiProviderTest {
 
         dependencyProvider.mockWebServer.enqueue(MockResponse().setBody(forecastPath.fileContent()))
 
-        val provider = WeatherApiProvider()
+        val provider = WeatherProviderImpl()
 
         val weather = provider.fiveDay(Location.SILVERSTONE, Units.METRIC)
 
@@ -82,6 +82,6 @@ class WeatherApiProviderTest {
 
         dependencyProvider.mockWebServer.enqueue(MockResponse().setResponseCode(400))
 
-        WeatherApiProvider().fiveDay(Location.SILVERSTONE, Units.METRIC)
+        WeatherProviderImpl().fiveDay(Location.SILVERSTONE, Units.METRIC)
     }
 }

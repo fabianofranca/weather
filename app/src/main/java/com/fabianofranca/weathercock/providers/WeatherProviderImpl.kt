@@ -1,25 +1,24 @@
 package com.fabianofranca.weathercock.providers
 
-import com.fabianofranca.weathercock.entities.Location
-import com.fabianofranca.weathercock.entities.Units
-import com.fabianofranca.weathercock.entities.Weather
-import com.fabianofranca.weathercock.entities.WeatherCondition
+import com.fabianofranca.weathercock.entities.*
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.api.WeatherApi
 import java.util.*
 import kotlin.math.roundToInt
 
-class WeatherApiProvider(
+class WeatherProviderImpl(
     private val api: WeatherApi = DependencyProvider.Current.api(),
     private val apiKey: String = DependencyProvider.Current.apiKey()
 ) : WeatherProvider {
 
-    override fun current(locale: Location, units: Units): Weather {
+    override fun current(location: Location, units: Units): Weather {
 
-        val raw = api.weather(locale.value, apiKey, units.value).execute()
+        val raw = api.weather(location.value, apiKey, units.value).execute()
 
         raw.body()?.let { r ->
             return Weather(
+                location,
+                WeatherType.CURRENT,
                 WeatherCondition.fromId(r.weather.first().id),
                 r.main.temp.roundToInt(),
                 r.dt
@@ -29,13 +28,15 @@ class WeatherApiProvider(
         throw Exception()
     }
 
-    override fun fiveDay(locale: Location, units: Units): List<Weather> {
+    override fun fiveDay(location: Location, units: Units): List<Weather> {
 
-        val raw = api.forecast(locale.value, apiKey, units.value).execute()
+        val raw = api.forecast(location.value, apiKey, units.value).execute()
 
         raw.body()?.let { r ->
             return r.list.map {
                 Weather(
+                    location,
+                    WeatherType.FIVE_DAYS,
                     WeatherCondition.fromId(it.weather.first().id),
                     it.main.temp.roundToInt(),
                     it.dt

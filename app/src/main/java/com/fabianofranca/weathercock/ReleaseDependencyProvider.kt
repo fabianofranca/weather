@@ -1,13 +1,14 @@
 package com.fabianofranca.weathercock
 
 import android.arch.lifecycle.ViewModel
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.net.ConnectivityManager
-import com.fabianofranca.weathercock.entities.Location
 import com.fabianofranca.weathercock.entities.Units
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.api.WeatherApi
 import com.fabianofranca.weathercock.infrastructure.json.DateAdapter
+import com.fabianofranca.weathercock.providers.room.Database
 import com.fabianofranca.weathercock.views.ViewModelFactory
 import com.fabianofranca.weathercock.views.home.HomeViewModel
 import com.fabianofranca.weathercock.views.locations.LocationsViewModel
@@ -56,6 +57,9 @@ class ReleaseDependencyProvider(private val application: WeatherApplication) : D
         LocationsViewModel::class.java to LocationsViewModel(application, bus)
     )
 
+    @Volatile
+    private var database: Database? = null
+
     override fun application() = application
 
     override fun apiKey() = apiKey
@@ -85,4 +89,14 @@ class ReleaseDependencyProvider(private val application: WeatherApplication) : D
         return activeNetwork != null && activeNetwork.isConnected
     }
 
+    override fun database(): Database {
+        return database ?: synchronized(this) {
+            database ?: buildDatabase(application)
+        }
+    }
+
+    private fun buildDatabase(context: Context): Database {
+        return Room.databaseBuilder(context, Database::class.java, "weather-database")
+            .build()
+    }
 }

@@ -42,8 +42,6 @@ class WeatherViewModel(
     val weatherForecasts: LiveData<List<Weather>> = Transformations.map(repository.weather()) {
 
         it?.let { w ->
-            _syncStatus.value = SyncStatus.ONLINE
-
             val days = mutableListOf(w)
 
             w.fiveDays?.let { d ->
@@ -61,11 +59,13 @@ class WeatherViewModel(
     }
 
     val temperature: LiveData<String> = Transformations.map(weatherForecast) {
-        "${it.temperature}$degree"
+        it?.let { weather ->
+            "${weather.temperature}$degree"
+        }
     }
 
     val condition: LiveData<String> = Transformations.map(weatherForecast) {
-        it.condition.description.toLowerCase()
+        it?.condition?.description?.toLowerCase()
     }
 
     private val _iconCondition = MediatorLiveData<Int>()
@@ -78,43 +78,46 @@ class WeatherViewModel(
     val location: LiveData<String> = Transformations.map(repository.location) {
         it?.let { location ->
             bus.post(ChangeLocationEvent(location))
+            location.value.toLowerCase()
         }
-
-        it?.value?.toLowerCase()
     }
 
-    val days: LiveData<List<DayViewModel>> = Transformations.map(weatherForecasts) {
-        val formatter = SimpleDateFormat(DAY_FORMAT, Locale.US)
+    val days: LiveData<List<DayViewModel>> = Transformations.map(weatherForecasts) { weathers ->
+        weathers?.let {
+            val formatter = SimpleDateFormat(DAY_FORMAT, Locale.US)
 
-        var hasToday = false
+            var hasToday = false
 
-        it.mapIndexed { index, w ->
-            val today = formatter.format(Calendar.getInstance().time)
-            val item = formatter.format(w.date)
+            it.mapIndexed { index, w ->
+                val today = formatter.format(Calendar.getInstance().time)
+                val item = formatter.format(w.date)
 
-            val day = if (today == item && !hasToday) {
-                hasToday = true
-                application.getString(R.string.today)
-            } else
-                item
-            val degree = application.getString(R.string.degree)
+                val day = if (today == item && !hasToday) {
+                    hasToday = true
+                    application.getString(R.string.today)
+                } else
+                    item
+                val degree = application.getString(R.string.degree)
 
-            val color: LiveData<Int> = Transformations.map(this.selectedDayIndex) { dayIndex ->
-                if (dayIndex == index) selectedColor else unselectedColor
+                val color: LiveData<Int> = Transformations.map(this.selectedDayIndex) { dayIndex ->
+                    if (dayIndex == index) selectedColor else unselectedColor
+                }
+
+                DayViewModel(
+                    index,
+                    selectedDayIndex,
+                    day,
+                    dayIcon(w.condition),
+                    "${w.temperature}$degree",
+                    color
+                )
             }
-
-            DayViewModel(
-                index,
-                selectedDayIndex,
-                day,
-                dayIcon(w.condition),
-                "${w.temperature}$degree",
-                color
-            )
         }
     }
 
-    private val _syncStatus = MutableLiveData<SyncStatus>().apply { value = SyncStatus.LOADING }
+    private val _syncStatus = MediatorLiveData<SyncStatus>().apply {
+        value = SyncStatus.LOADING
+    }
 
     val syncStatus: LiveData<SyncStatus>
         get() {
@@ -125,16 +128,13 @@ class WeatherViewModel(
         it?.let { status ->
             when (status) {
                 SyncStatus.LOADING, SyncStatus.ONLINE -> R.drawable.ic_sync
-                SyncStatus.OFFLINE -> R.drawable.ic_offline
+                SyncStatus.OFFLINE, SyncStatus.CACHE -> R.drawable.ic_offline
             }
         }
     }
 
     val failure: LiveData<String> = Transformations.map(repository.failure) {
-        it?.let {
-            _syncStatus.value = SyncStatus.ONLINE
-            application.getString(R.string.failure)
-        }
+        application.getString(R.string.failure)
     }
 
     private val _updated = MediatorLiveData<String>()
@@ -148,6 +148,28 @@ class WeatherViewModel(
 
     init {
         bus.register(this)
+
+        _syncStatus.addSource(weatherForecasts) { weathers ->
+            weathers?.let {
+
+                _syncStatus.value = if (DependencyProvider.Current.connected()) {
+                    SyncStatus.ONLINE
+                } else {
+                    SyncStatus.CACHE
+                }
+            } ?: let {
+
+                _syncStatus.value = if (DependencyProvider.Current.connected()) {
+                    SyncStatus.LOADING
+                } else {
+                    SyncStatus.OFFLINE
+                }
+            }
+        }
+
+        _syncStatus.addSource(failure) {
+            _syncStatus.value = SyncStatus.ONLINE
+        }
 
         _updated.addSource(repository.updated) {
             it?.let { date ->
@@ -176,11 +198,18 @@ class WeatherViewModel(
                 application.getString(R.string.problems_with_sync))
         }
 
-        val conditionTransformation = Transformations.map(weatherForecast) {
-            conditionIcon(it.condition)
+        val conditionTransformation = Transformations.map(weatherForecast) { weather ->
+            weather?.let {
+                conditionIcon(it.condition)
+            }
         }
 
-        _iconCondition.addSource(conditionTransformation) { _iconCondition.value = it }
+        _iconCondition.addSource(conditionTransformation) { drawable ->
+            drawable?.let {
+                _iconCondition.value = it
+            }
+
+        }
 
         _iconCondition.addSource(_syncStatus) {
             it.offline(_iconCondition, R.drawable.ic_condition_offline)
@@ -215,7 +244,6 @@ class WeatherViewModel(
 
     private fun <T> SyncStatus?.offline(liveData: MutableLiveData<T>, value: T) {
         runIfNeverSync {
-
             this?.let { status ->
                 if (status == SyncStatus.OFFLINE) {
                     liveData.value = value
@@ -237,25 +265,51 @@ class WeatherViewModel(
 
         val prefix = _application.getString(R.string.updated)
 
-        val formatter = PeriodFormatterBuilder()
+        val minutesformatter = PeriodFormatterBuilder()
             .printZeroNever()
             .appendPrefix(prefix).appendMinutes()
             .appendSuffix(_application.getString(R.string.minutes_ago))
+            .toFormatter()
+
+        val hoursformatter = PeriodFormatterBuilder()
+            .printZeroNever()
             .appendPrefix(prefix).appendHours()
             .appendSuffix(_application.getString(R.string.hours_ago))
+            .toFormatter()
+
+        val daysformatter = PeriodFormatterBuilder()
+            .printZeroNever()
             .appendPrefix(prefix).appendDays()
             .appendSuffix(_application.getString(R.string.days_ago))
+            .toFormatter()
+
+        val weeksformatter = PeriodFormatterBuilder()
+            .printZeroNever()
             .appendPrefix(prefix).appendWeeks()
             .appendSuffix(_application.getString(R.string.weeks_ago))
+            .toFormatter()
+
+        val monthsFormatter = PeriodFormatterBuilder()
+            .printZeroNever()
             .appendPrefix(prefix).appendMonths()
             .appendSuffix(_application.getString(R.string.months_ago))
+            .toFormatter()
+
+        val yearsformatter = PeriodFormatterBuilder()
+            .printZeroNever()
             .appendPrefix(prefix).appendYears()
             .appendSuffix(_application.getString(R.string.years_ago))
             .toFormatter()
 
-        val value = formatter.print(period)
-
-        return if (value.isEmpty()) _application.getString(R.string.update_now) else value
+        return when {
+            yearsformatter.print(period).isNotEmpty() -> yearsformatter.print(period)
+            monthsFormatter.print(period).isNotEmpty() -> monthsFormatter.print(period)
+            weeksformatter.print(period).isNotEmpty() -> weeksformatter.print(period)
+            daysformatter.print(period).isNotEmpty() -> daysformatter.print(period)
+            hoursformatter.print(period).isNotEmpty() -> hoursformatter.print(period)
+            minutesformatter.print(period).isNotEmpty() -> minutesformatter.print(period)
+            else -> _application.getString(R.string.update_now)
+        }
     }
 
     private fun conditionIcon(condition: WeatherCondition) = when (condition) {
@@ -284,25 +338,24 @@ class WeatherViewModel(
         sync(null)
     }
 
-    private fun sync(location: Location?): Boolean {
-        _syncStatus.value?.let {
-            if (it != SyncStatus.ONLINE) return@sync false
+    private fun sync(location: Location?) {
+
+        if (!DependencyProvider.Current.connected() && location == null) {
+            return
         }
 
-        _syncStatus.value = SyncStatus.LOADING
-
-        location?.let {
-            repository.weather(it)
-        } ?: run {
-            repository.weather()
+        if (DependencyProvider.Current.connected()) {
+            _syncStatus.value = SyncStatus.LOADING
         }
 
-        return true
+        repository.weather(location)
+
+        bus.post(ChangePageEvent(Page.WEATHER))
     }
 
     @Subscribe
     fun syncSubscribe(event: SyncEvent) {
-        if (sync(event.location)) bus.post(ChangePageEvent(Page.WEATHER))
+        sync(event.location)
     }
 
     @Subscribe
@@ -310,12 +363,16 @@ class WeatherViewModel(
 
         if (event.connected) {
 
-            _syncStatus.value = if (_syncStatus.value == SyncStatus.OFFLINE)
-                SyncStatus.ONLINE
-            else
-                _syncStatus.value
+            val status = _syncStatus.value
 
-            runIfNeverSync { sync() }
+            _syncStatus.value = when (status) {
+                SyncStatus.OFFLINE, SyncStatus.CACHE -> SyncStatus.ONLINE
+                else -> _syncStatus.value
+            }
+
+            if (status == SyncStatus.OFFLINE) {
+                sync()
+            }
         } else
             _syncStatus.value = SyncStatus.OFFLINE
     }
