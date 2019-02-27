@@ -138,7 +138,7 @@ class WeatherViewModelTest {
             value = Location.SAO_PAULO
         }
 
-        `when`(repository.location()).thenReturn(location)
+        `when`(repository.location).thenReturn(location)
 
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 

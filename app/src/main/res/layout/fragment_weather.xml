@@ -16,13 +16,6 @@
         android:layout_height="match_parent"
         tools:context=".views.weather.WeatherFragment">
 
-        <android.support.constraint.Guideline
-            android:id="@+id/locationGuide"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.78" />
-
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/logo"
             android:layout_width="wrap_content"
@@ -45,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.15" />
+            app:layout_constraintGuide_percent="0.10" />
 
         <android.support.constraint.Guideline
             android:id="@+id/tempGuideLeft"
@@ -79,14 +72,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.30" />
+            app:layout_constraintGuide_percent="0.25" />
 
         <android.support.constraint.Guideline
             android:id="@+id/iconGuideTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.33" />
+            app:layout_constraintGuide_percent="0.28" />
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/currentConditionIcon"
@@ -106,14 +99,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.65" />
+            app:layout_constraintGuide_percent="0.60" />
 
         <android.support.constraint.Guideline
             android:id="@+id/conditionGuideTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.68" />
+            app:layout_constraintGuide_percent="0.63" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/conditionText"
@@ -136,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.73" />
+            app:layout_constraintGuide_percent="0.68" />
 
         <android.support.v7.widget.AppCompatTextView
             android:id="@+id/locationText"
@@ -144,13 +137,27 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:layout_marginBottom="2dp"
             android:text="@{viewModel.location}"
             android:textAllCaps="true"
             app:autoSizeTextType="uniform"
+            app:layout_constraintBottom_toTopOf="@+id/updateText"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:text="são paulo, br" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/updateText"
+            style="@style/AppTheme.TextViewPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="4dp"
+            android:text="@{viewModel.updated}"
+            app:autoSizeTextType="uniform"
             app:layout_constraintBottom_toTopOf="@+id/dividerGuide"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/locationGuide"
-            tools:text="são paulo, br" />
+            tools:text="updated 5 days at ago" />
+
 
         <android.support.v7.widget.AppCompatImageView
             android:id="@+id/sync"
@@ -159,8 +166,8 @@
             android:layout_marginEnd="16dp"
             android:onClick="@{() -> viewModel.sync() }"
             android:padding="2dp"
+            app:layout_constraintBottom_toTopOf="@+id/dividerView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/locationGuide"
             app:srcCompat="@{viewModel.syncIcon}"
             tools:srcCompat="@drawable/ic_sync" />
 

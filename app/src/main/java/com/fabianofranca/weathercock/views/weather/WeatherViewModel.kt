@@ -1,13 +1,12 @@
 package com.fabianofranca.weathercock.views.weather
 
 import android.app.Application
-import android.arch.lifecycle.AndroidViewModel
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
+import android.arch.lifecycle.*
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.entities.*
+import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.network.InternetAvailableEvent
 import com.fabianofranca.weathercock.repositories.WeatherRepository
 import com.fabianofranca.weathercock.repositories.WeatherRepositoryImpl
@@ -16,8 +15,14 @@ import com.fabianofranca.weathercock.views.home.Page
 import com.fabianofranca.weathercock.views.locations.ChangeLocationEvent
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import org.joda.time.DateTime
+import org.joda.time.Period
+import org.joda.time.format.PeriodFormatterBuilder
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 class WeatherViewModel(
     application: Application,
@@ -66,7 +71,7 @@ class WeatherViewModel(
         conditionIcon(it.condition)
     }
 
-    val location: LiveData<String> = Transformations.map(repository.location()) {
+    val location: LiveData<String> = Transformations.map(repository.location) {
         it?.let { location ->
             bus.post(ChangeLocationEvent(location))
         }
@@ -122,14 +127,67 @@ class WeatherViewModel(
     }
 
     val failure: LiveData<String> = Transformations.map(repository.failure) {
-        it?.let { e ->
+        it?.let {
             _syncStatus.value = SyncStatus.ONLINE
             application.getString(R.string.failure)
         }
     }
 
+    private val _updated = MediatorLiveData<String>()
+
+    val updated: LiveData<String>
+        get() {
+            return _updated
+        }
+
+    private val now = MutableLiveData<Date>()
+
     init {
         bus.register(this)
+
+        _updated.addSource(repository.updated) {
+            it?.let { date ->
+                _updated.value = updated(date, Calendar.getInstance().time)
+            }
+        }
+
+        _updated.addSource(now) {
+            it?.let { end ->
+                repository.updated.value?.let { start ->
+                    _updated.value = updated(start, end)
+                }
+            }
+        }
+
+        val timer = Timer()
+
+        val task = object: TimerTask() {
+            override fun run() {
+                GlobalScope.launch(DependencyProvider.Current.uiDispatcher()) {
+                    now.value = Calendar.getInstance().time
+                }
+            }
+        }
+
+        timer.scheduleAtFixedRate( task, 60000, 60000)
+    }
+
+    private fun updated(start: Date, end: Date): String {
+        val period = Period(DateTime(start), DateTime(end))
+
+        val formatter = PeriodFormatterBuilder()
+            .printZeroNever()
+            .appendPrefix(UPDATED_PREFIX).appendMinutes().appendSuffix(" minutes ago")
+            .appendPrefix(UPDATED_PREFIX).appendHours().appendSuffix(" hours ago")
+            .appendPrefix(UPDATED_PREFIX).appendDays().appendSuffix(" days ago")
+            .appendPrefix(UPDATED_PREFIX).appendWeeks().appendSuffix(" weeks ago")
+            .appendPrefix(UPDATED_PREFIX).appendMonths().appendSuffix(" months ago")
+            .appendPrefix(UPDATED_PREFIX).appendYears().appendSuffix(" years ago")
+            .toFormatter()
+
+        val value = formatter.print(period)
+
+        return if (value.isEmpty()) "updated now" else value
     }
 
     private fun conditionIcon(condition: WeatherCondition) = when (condition) {
@@ -181,6 +239,14 @@ class WeatherViewModel(
 
     @Subscribe
     fun internetAvaiableSubscribe(event: InternetAvailableEvent) {
-        _syncStatus.value = if (event.connected) _syncStatus.value else SyncStatus.OFFLINE
+        _syncStatus.value = if (event.connected)
+            if (_syncStatus.value == SyncStatus.OFFLINE) SyncStatus.ONLINE else _syncStatus.value
+        else
+            SyncStatus.OFFLINE
+    }
+
+    private companion object {
+        const val UPDATED_PREFIX = "updated "
+        const val UPDATED_NOW = "updated now"
     }
 }
