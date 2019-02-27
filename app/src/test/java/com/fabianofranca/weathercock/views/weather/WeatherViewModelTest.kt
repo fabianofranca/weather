@@ -44,6 +44,10 @@ class WeatherViewModelTest {
 
         `when`(repository.weather()).thenReturn(weather)
 
+        `when`(repository.updated).thenReturn(MutableLiveData<Date>().apply {
+            Calendar.getInstance().time
+        })
+
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 
         viewModel.weatherForecasts.await()
@@ -62,6 +66,10 @@ class WeatherViewModelTest {
         }
 
         `when`(repository.weather()).thenReturn(weather)
+
+        `when`(repository.updated).thenReturn(MutableLiveData<Date>().apply {
+            Calendar.getInstance().time
+        })
 
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 
@@ -121,6 +129,10 @@ class WeatherViewModelTest {
 
         `when`(repository.weather()).thenReturn(weather)
 
+        `when`(repository.updated).thenReturn(MutableLiveData<Date>().apply {
+            Calendar.getInstance().time
+        })
+
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 
         viewModel.weatherForecasts.await()
@@ -139,6 +151,11 @@ class WeatherViewModelTest {
         }
 
         `when`(repository.location).thenReturn(location)
+
+        `when`(repository.updated).thenReturn(MutableLiveData<Date>().apply {
+            Calendar.getInstance().time
+        })
+
 
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 
@@ -200,6 +217,10 @@ class WeatherViewModelTest {
         }
 
         `when`(repository.weather()).thenReturn(weather)
+
+        `when`(repository.updated).thenReturn(MutableLiveData<Date>().apply {
+            Calendar.getInstance().time
+        })
 
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 

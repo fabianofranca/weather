@@ -2,7 +2,6 @@ package com.fabianofranca.weathercock.views.weather
 
 import android.app.Application
 import android.arch.lifecycle.*
-import android.os.Handler
 import android.support.v4.content.ContextCompat
 import com.fabianofranca.weathercock.R
 import com.fabianofranca.weathercock.entities.*
@@ -161,7 +160,7 @@ class WeatherViewModel(
 
         val timer = Timer()
 
-        val task = object: TimerTask() {
+        val task = object : TimerTask() {
             override fun run() {
                 GlobalScope.launch(DependencyProvider.Current.uiDispatcher()) {
                     now.value = Calendar.getInstance().time
@@ -169,7 +168,7 @@ class WeatherViewModel(
             }
         }
 
-        timer.scheduleAtFixedRate( task, 60000, 60000)
+        timer.scheduleAtFixedRate(task, 60000, 60000)
     }
 
     private fun updated(start: Date, end: Date): String {
