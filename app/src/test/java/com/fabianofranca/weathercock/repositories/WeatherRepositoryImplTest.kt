@@ -26,8 +26,14 @@ class WeatherRepositoryImplTest {
     @Mock
     lateinit var provider: WeatherProvider
 
-    private val weatherCurrent = Weather(Clear, 0, Calendar.getInstance().time)
-    private val weatherDay = Weather(Rain, 0, Calendar.getInstance().time)
+    @Mock
+    lateinit var profileRepository: ProfileRepository
+
+    private val weatherCurrent =
+        Weather(Location.SILVERSTONE, WeatherType.CURRENT, Clear, 0, Calendar.getInstance().time)
+
+    private val weatherDay =
+        Weather(Location.SILVERSTONE, WeatherType.FIVE_DAYS, Rain, 0, Calendar.getInstance().time)
 
     private val defaultLocation = Location.SILVERSTONE
     private val units = Units.METRIC
@@ -44,7 +50,9 @@ class WeatherRepositoryImplTest {
         `when`(provider.current(defaultLocation, units)).thenReturn(weatherCurrent)
         `when`(provider.fiveDay(defaultLocation, units)).thenReturn(listOf(weatherDay))
 
-        val repository = WeatherRepositoryImpl(provider)
+        `when`(profileRepository.get()).thenReturn(Profile(Location.SILVERSTONE))
+
+        val repository = WeatherRepositoryImpl(provider, profileRepository)
 
         repository.weather().verify {
             assertEquals(weatherCurrent, it)

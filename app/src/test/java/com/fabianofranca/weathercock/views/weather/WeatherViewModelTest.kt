@@ -39,7 +39,13 @@ class WeatherViewModelTest {
     fun currentTemperature_shouldWork() {
 
         val weather = MutableLiveData<Weather>().apply {
-            value = Weather(Clear, 26, Calendar.getInstance().time)
+            value = Weather(
+                Location.SILVERSTONE,
+                WeatherType.CURRENT,
+                Clear,
+                26,
+                Calendar.getInstance().time
+            )
         }
 
         `when`(repository.weather()).thenReturn(weather)
@@ -62,7 +68,13 @@ class WeatherViewModelTest {
     @Test
     fun currentCondition_shouldWork() {
         val weather = MutableLiveData<Weather>().apply {
-            value = Weather(Clear, 26, Calendar.getInstance().time)
+            value = Weather(
+                Location.SILVERSTONE,
+                WeatherType.CURRENT,
+                Clear,
+                26,
+                Calendar.getInstance().time
+            )
         }
 
         `when`(repository.weather()).thenReturn(weather)
@@ -124,7 +136,7 @@ class WeatherViewModelTest {
 
     private fun iconConditionTest(condition: WeatherCondition, @DrawableRes drawable: Int) {
         val weather = MutableLiveData<Weather>().apply {
-            value = Weather(condition, 26, Calendar.getInstance().time)
+            value = Weather(Location.SILVERSTONE, WeatherType.CURRENT, condition, 26, Calendar.getInstance().time)
         }
 
         `when`(repository.weather()).thenReturn(weather)
@@ -214,9 +226,11 @@ class WeatherViewModelTest {
 
         val weather = MutableLiveData<Weather>().apply {
 
-            val day = Weather(condition, 25, tomorrow)
+            val day = Weather(Location.SILVERSTONE, WeatherType.FIVE_DAYS, condition, 25, tomorrow)
 
-            value = Weather(condition, 26, Calendar.getInstance().time, listOf(day))
+            value = Weather(Location.SILVERSTONE, WeatherType.CURRENT, condition, 26, Calendar.getInstance().time, 0).apply {
+                fiveDays = listOf(day)
+            }
         }
 
         `when`(repository.weather()).thenReturn(weather)

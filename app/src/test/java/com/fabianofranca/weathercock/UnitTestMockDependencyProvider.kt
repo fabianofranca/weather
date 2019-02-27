@@ -7,6 +7,7 @@ import com.fabianofranca.weathercock.entities.Units
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.infrastructure.api.WeatherApi
 import com.fabianofranca.weathercock.infrastructure.json.DateAdapter
+import com.fabianofranca.weathercock.providers.room.Database
 import com.fabianofranca.weathercock.views.ViewModelFactory
 import com.squareup.moshi.Moshi
 import com.squareup.otto.Bus
@@ -65,4 +66,6 @@ class UnitTestMockDependencyProvider : DependencyProvider {
     override fun ioDispatcher() = Dispatchers.Default
 
     override fun connected() = true
+
+    override fun database() = mock(Database::class.java)
 }

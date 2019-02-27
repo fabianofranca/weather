@@ -3,11 +3,10 @@ package com.fabianofranca.weathercock.repositories
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.fabianofranca.weathercock.entities.Location
-import com.fabianofranca.weathercock.entities.Units
 import com.fabianofranca.weathercock.entities.Weather
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
-import com.fabianofranca.weathercock.providers.WeatherProviderImpl
 import com.fabianofranca.weathercock.providers.WeatherProvider
+import com.fabianofranca.weathercock.providers.WeatherProviderImpl
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -59,13 +58,19 @@ class WeatherRepositoryImpl(
             try {
 
                 if (DependencyProvider.Current.connected()) {
-                    val current = currentAsync(newLocation, units)
-                    val fiveDays = fiveDaysAsync(newLocation, units)
 
-                    weather.value = current.await().apply { this.fiveDays = fiveDays.await() }
+                    val current = withContext(DependencyProvider.Current.ioDispatcher()) {
+                        weatherApiProvider.current(newLocation, units)
+                    }
+
+                    val fiveDays = withContext(DependencyProvider.Current.ioDispatcher()) {
+                        weatherApiProvider.fiveDay(newLocation, units)
+                    }
+
+                    weather.value = current.apply { this.fiveDays = fiveDays }
 
                     withContext(DependencyProvider.Current.ioDispatcher()) {
-                        weatherCacheRepository.push(newLocation, current.await(), fiveDays.await())
+                        weatherCacheRepository.push(newLocation, current, fiveDays)
                     }
 
                     val date = withContext(DependencyProvider.Current.ioDispatcher()) {
@@ -126,21 +131,4 @@ class WeatherRepositoryImpl(
                 _updated.value = null
             }
         }
-
-    private fun currentAsync(location: Location, units: Units) =
-        GlobalScope.async(DependencyProvider.Current.ioDispatcher()) {
-            weatherApiProvider.current(
-                location,
-                units
-            )
-        }
-
-    private fun fiveDaysAsync(location: Location, units: Units) =
-        GlobalScope.async(DependencyProvider.Current.ioDispatcher()) {
-            weatherApiProvider.fiveDay(
-                location,
-                units
-            )
-        }
-
 }
