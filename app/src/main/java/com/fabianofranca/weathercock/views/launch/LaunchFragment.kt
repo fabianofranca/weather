@@ -51,7 +51,6 @@ class LaunchFragment : Fragment() {
             val transaction = fragmentManager?.beginTransaction()
             transaction?.addSharedElement(view.logo, ViewCompat.getTransitionName(view.logo))
             transaction?.replace(com.fabianofranca.weathercock.R.id.container, fragment)
-            transaction?.setReorderingAllowed(true)
             transaction?.commit()
         }
 
