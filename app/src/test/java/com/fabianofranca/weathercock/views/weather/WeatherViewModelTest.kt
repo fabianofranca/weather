@@ -133,6 +133,9 @@ class WeatherViewModelTest {
             Calendar.getInstance().time
         })
 
+        `when`(repository.failure).thenReturn(MutableLiveData<Exception>())
+
+
         val viewModel = WeatherViewModel(application, DependencyProvider.Current.bus(), repository)
 
         viewModel.weatherForecasts.await()
