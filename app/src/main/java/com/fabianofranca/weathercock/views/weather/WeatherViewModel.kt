@@ -66,9 +66,12 @@ class WeatherViewModel(
         it.condition.description.toLowerCase()
     }
 
-    val iconCondition: LiveData<Int> = Transformations.map(weatherForecast) {
-        conditionIcon(it.condition)
-    }
+    private val _iconCondition = MediatorLiveData<Int>()
+
+    val iconCondition: LiveData<Int>
+        get() {
+            return _iconCondition
+        }
 
     val location: LiveData<String> = Transformations.map(repository.location) {
         it?.let { location ->
@@ -158,6 +161,18 @@ class WeatherViewModel(
             }
         }
 
+        _updated.addSource(_syncStatus) { it.offline(_updated, "offline") }
+
+        val conditionTransformation = Transformations.map(weatherForecast) {
+            conditionIcon(it.condition)
+        }
+
+        _iconCondition.addSource(conditionTransformation) { _iconCondition.value = it }
+
+        _iconCondition.addSource(_syncStatus) {
+            it.offline(_iconCondition, R.drawable.ic_condition_offline)
+        }
+
         val timer = Timer()
 
         val task = object : TimerTask() {
@@ -169,6 +184,23 @@ class WeatherViewModel(
         }
 
         timer.scheduleAtFixedRate(task, 60000, 60000)
+    }
+
+    private fun runIfNeverSync(block: () -> Unit) {
+        if (weatherForecasts.value.isNullOrEmpty()) {
+            block()
+        }
+    }
+
+    private fun <T> SyncStatus?.offline(liveData: MutableLiveData<T>, value: T) {
+        runIfNeverSync {
+
+            this?.let { status ->
+                if (status == SyncStatus.OFFLINE) {
+                    liveData.value = value
+                }
+            }
+        }
     }
 
     private fun updated(start: Date, end: Date): String {
@@ -238,14 +270,20 @@ class WeatherViewModel(
 
     @Subscribe
     fun internetAvaiableSubscribe(event: InternetAvailableEvent) {
-        _syncStatus.value = if (event.connected)
-            if (_syncStatus.value == SyncStatus.OFFLINE) SyncStatus.ONLINE else _syncStatus.value
-        else
-            SyncStatus.OFFLINE
+
+        if (event.connected) {
+
+            _syncStatus.value = if (_syncStatus.value == SyncStatus.OFFLINE)
+                SyncStatus.ONLINE
+            else
+                _syncStatus.value
+
+            runIfNeverSync { sync() }
+        } else
+            _syncStatus.value = SyncStatus.OFFLINE
     }
 
     private companion object {
         const val UPDATED_PREFIX = "updated "
-        const val UPDATED_NOW = "updated now"
     }
 }

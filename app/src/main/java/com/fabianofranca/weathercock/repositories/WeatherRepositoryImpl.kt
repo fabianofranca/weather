@@ -55,12 +55,14 @@ class WeatherRepositoryImpl(private val provider: WeatherProvider = WeatherApiPr
                     }
                 }
 
-                val current = currentAsync(newLocation, units)
-                val fiveDays = fiveDaysAsync(newLocation, units)
+                if (DependencyProvider.Current.connected()) {
+                    val current = currentAsync(newLocation, units)
+                    val fiveDays = fiveDaysAsync(newLocation, units)
 
-                weather.value = current.await().apply { this.fiveDays = fiveDays.await() }
+                    weather.value = current.await().apply { this.fiveDays = fiveDays.await() }
 
-                _updated.value = Calendar.getInstance().time
+                    _updated.value = Calendar.getInstance().time
+                }
 
                 if (_location.value != newLocation) {
                     _location.value = newLocation
