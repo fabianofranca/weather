@@ -31,6 +31,8 @@ class WeatherViewModel(
 
     val selectedDayIndex = MutableLiveData<Int>()
 
+    private val _application = getApplication<Application>()
+
     private val degree = application.getString(R.string.degree)
 
     private val selectedColor = ContextCompat.getColor(application, R.color.colorPrimary)
@@ -82,7 +84,7 @@ class WeatherViewModel(
     }
 
     val days: LiveData<List<DayViewModel>> = Transformations.map(weatherForecasts) {
-        val formatter = SimpleDateFormat("dd/MM", Locale.US)
+        val formatter = SimpleDateFormat(DAY_FORMAT, Locale.US)
 
         var hasToday = false
 
@@ -161,7 +163,18 @@ class WeatherViewModel(
             }
         }
 
-        _updated.addSource(_syncStatus) { it.offline(_updated, "offline") }
+        _updated.addSource(_syncStatus) {
+            it.offline(
+                _updated,
+                application.getString(R.string.offline)
+            )
+        }
+
+        _updated.addSource(repository.failure) {
+            it.failure(
+                _updated,
+                application.getString(R.string.problems_with_sync))
+        }
 
         val conditionTransformation = Transformations.map(weatherForecast) {
             conditionIcon(it.condition)
@@ -173,6 +186,14 @@ class WeatherViewModel(
             it.offline(_iconCondition, R.drawable.ic_condition_offline)
         }
 
+        _iconCondition.addSource(repository.failure) {
+            it.failure(_iconCondition, R.drawable.ic_sync_problems)
+        }
+
+        setupTimer()
+    }
+
+    private fun setupTimer() {
         val timer = Timer()
 
         val task = object : TimerTask() {
@@ -183,7 +204,7 @@ class WeatherViewModel(
             }
         }
 
-        timer.scheduleAtFixedRate(task, 60000, 60000)
+        timer.scheduleAtFixedRate(task, UPDATED_INTERVAL, UPDATED_INTERVAL)
     }
 
     private fun runIfNeverSync(block: () -> Unit) {
@@ -203,22 +224,38 @@ class WeatherViewModel(
         }
     }
 
+    private fun <T> Exception?.failure(liveData: MutableLiveData<T>, value: T) {
+        runIfNeverSync {
+            this?.let {
+                liveData.value = value
+            }
+        }
+    }
+
     private fun updated(start: Date, end: Date): String {
         val period = Period(DateTime(start), DateTime(end))
 
+        val prefix = _application.getString(R.string.updated)
+
         val formatter = PeriodFormatterBuilder()
             .printZeroNever()
-            .appendPrefix(UPDATED_PREFIX).appendMinutes().appendSuffix(" minutes ago")
-            .appendPrefix(UPDATED_PREFIX).appendHours().appendSuffix(" hours ago")
-            .appendPrefix(UPDATED_PREFIX).appendDays().appendSuffix(" days ago")
-            .appendPrefix(UPDATED_PREFIX).appendWeeks().appendSuffix(" weeks ago")
-            .appendPrefix(UPDATED_PREFIX).appendMonths().appendSuffix(" months ago")
-            .appendPrefix(UPDATED_PREFIX).appendYears().appendSuffix(" years ago")
+            .appendPrefix(prefix).appendMinutes()
+            .appendSuffix(_application.getString(R.string.minutes_ago))
+            .appendPrefix(prefix).appendHours()
+            .appendSuffix(_application.getString(R.string.hours_ago))
+            .appendPrefix(prefix).appendDays()
+            .appendSuffix(_application.getString(R.string.days_ago))
+            .appendPrefix(prefix).appendWeeks()
+            .appendSuffix(_application.getString(R.string.weeks_ago))
+            .appendPrefix(prefix).appendMonths()
+            .appendSuffix(_application.getString(R.string.months_ago))
+            .appendPrefix(prefix).appendYears()
+            .appendSuffix(_application.getString(R.string.years_ago))
             .toFormatter()
 
         val value = formatter.print(period)
 
-        return if (value.isEmpty()) "updated now" else value
+        return if (value.isEmpty()) _application.getString(R.string.update_now) else value
     }
 
     private fun conditionIcon(condition: WeatherCondition) = when (condition) {
@@ -284,6 +321,7 @@ class WeatherViewModel(
     }
 
     private companion object {
-        const val UPDATED_PREFIX = "updated "
+        const val DAY_FORMAT = "dd/MM"
+        const val UPDATED_INTERVAL = 60000L
     }
 }

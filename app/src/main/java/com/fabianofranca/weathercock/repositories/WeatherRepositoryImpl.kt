@@ -44,16 +44,17 @@ class WeatherRepositoryImpl(private val provider: WeatherProvider = WeatherApiPr
 
         GlobalScope.launch(DependencyProvider.Current.uiDispatcher()) {
 
-            try {
-                var newLocation = Location.SILVERSTONE
+            var newLocation = Location.SILVERSTONE
 
-                location?.let {
+            location?.let {
+                newLocation = it
+            } ?: run {
+                _location.value?.let {
                     newLocation = it
-                } ?: run {
-                    _location.value?.let {
-                        newLocation = it
-                    }
                 }
+            }
+
+            try {
 
                 if (DependencyProvider.Current.connected()) {
                     val current = currentAsync(newLocation, units)
@@ -67,7 +68,13 @@ class WeatherRepositoryImpl(private val provider: WeatherProvider = WeatherApiPr
                 if (_location.value != newLocation) {
                     _location.value = newLocation
                 }
+
             } catch (e: Exception) {
+
+                if (_location.value == null) {
+                    _location.value = newLocation
+                }
+
                 _failure.value = e
             }
         }
