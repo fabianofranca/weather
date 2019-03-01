@@ -21,6 +21,8 @@ class WeatherProviderImplTest {
 
     private val forecastPath = "forecast.json"
 
+    private val uviPath = "uvi.json"
+
     init {
         DependencyProvider.Current = dependencyProvider
     }
@@ -84,4 +86,27 @@ class WeatherProviderImplTest {
 
         WeatherProviderImpl().fiveDay(Location.SILVERSTONE, Units.METRIC)
     }
+
+    @Test
+    fun uvi_shouldReturnWeather() {
+
+        dependencyProvider.mockWebServer.enqueue(MockResponse().setBody(uviPath.fileContent()))
+
+        val provider = WeatherProviderImpl()
+
+        val uvi = provider.uvi(0.0, 0.0)
+
+        verify(dependencyProvider.api()).uvi("", 0.0, 0.0)
+
+        assertEquals(10.16F, uvi.value)
+    }
+
+    @Test(expected = Exception::class)
+    fun uvi_shouldThrowException() {
+
+        dependencyProvider.mockWebServer.enqueue(MockResponse().setResponseCode(400))
+
+        WeatherProviderImpl().uvi(0.0, 0.0)
+    }
+
 }

@@ -2,6 +2,7 @@ package com.fabianofranca.weathercock.providers
 
 import com.fabianofranca.weathercock.entities.*
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
+import com.fabianofranca.weathercock.infrastructure.api.UviRaw
 import com.fabianofranca.weathercock.infrastructure.api.WeatherApi
 import java.util.*
 import kotlin.math.roundToInt
@@ -22,7 +23,12 @@ class WeatherProviderImpl(
                 WeatherCondition.fromId(r.weather.first().id),
                 r.main.temp.roundToInt(),
                 r.dt
-            )
+            ).apply {
+                r.coord?.let {
+                    latitude = it.lat
+                    longitude = it.lon
+                }
+            }
         }
 
         throw Exception()
@@ -48,6 +54,16 @@ class WeatherProviderImpl(
                         calendar.get(Calendar.MINUTE) == 0 &&
                         calendar.get(Calendar.SECOND) == 0
             }
+        }
+
+        throw Exception()
+    }
+
+    override fun uvi(latitude: Double, longitude: Double): UviRaw {
+        val raw  = api.uvi(apiKey, latitude, longitude).execute()
+
+        raw.body()?.let {
+           return it
         }
 
         throw Exception()

@@ -21,4 +21,13 @@ interface WeatherApi {
         @Query("APPID") apiKey: String,
         @Query("units") units: String
     ): Call<ForecastRaw>
+
+
+    @GET("uvi")
+    @Headers("Cache-Control: no-cache")
+    fun uvi(
+        @Query("APPID") apiKey: String,
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double
+    ): Call<UviRaw>
 }

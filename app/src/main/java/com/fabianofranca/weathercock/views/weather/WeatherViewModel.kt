@@ -137,6 +137,12 @@ class WeatherViewModel(
         application.getString(R.string.failure)
     }
 
+    val uvi: LiveData<String> = Transformations.map(weatherForecast) { weather ->
+        weather?.let {
+            if (it.uvi != Indeterminate) it.uvi.description else ""
+        }
+    }
+
     private val _updated = MediatorLiveData<String>()
 
     val updated: LiveData<String>

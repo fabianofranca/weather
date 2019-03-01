@@ -228,7 +228,7 @@ class WeatherViewModelTest {
 
             val day = Weather(Location.SILVERSTONE, WeatherType.FIVE_DAYS, condition, 25, tomorrow)
 
-            value = Weather(Location.SILVERSTONE, WeatherType.CURRENT, condition, 26, Calendar.getInstance().time, 0).apply {
+            value = Weather(Location.SILVERSTONE, WeatherType.CURRENT, condition, 26, Calendar.getInstance().time, 0F, 0).apply {
                 fiveDays = listOf(day)
             }
         }

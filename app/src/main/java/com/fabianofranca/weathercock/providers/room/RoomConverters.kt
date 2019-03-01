@@ -2,6 +2,7 @@ package com.fabianofranca.weathercock.providers.room
 
 import android.arch.persistence.room.TypeConverter
 import com.fabianofranca.weathercock.entities.Location
+import com.fabianofranca.weathercock.entities.UviType
 import com.fabianofranca.weathercock.entities.WeatherCondition
 import com.fabianofranca.weathercock.entities.WeatherType
 import java.util.*
@@ -52,6 +53,13 @@ class RoomConverters {
         @JvmStatic
         fun toWeatherType(value: String) = WeatherType.valueOf(value)
 
+        @TypeConverter
+        @JvmStatic
+        fun fromUvi(uvi: UviType) = uvi.start
+
+        @TypeConverter
+        @JvmStatic
+        fun toUvi(value: Float) = UviType.fromValue(value)
 
     }
 }

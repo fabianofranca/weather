@@ -3,6 +3,7 @@ package com.fabianofranca.weathercock.repositories
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import com.fabianofranca.weathercock.entities.Location
+import com.fabianofranca.weathercock.entities.UviType
 import com.fabianofranca.weathercock.entities.Weather
 import com.fabianofranca.weathercock.infrastructure.DependencyProvider
 import com.fabianofranca.weathercock.providers.WeatherProvider
@@ -59,15 +60,27 @@ class WeatherRepositoryImpl(
 
                 if (DependencyProvider.Current.connected()) {
 
-                    val current = withContext(DependencyProvider.Current.ioDispatcher()) {
+                    val currentAsync = async(DependencyProvider.Current.ioDispatcher()) {
                         weatherApiProvider.current(newLocation, units)
                     }
 
-                    val fiveDays = withContext(DependencyProvider.Current.ioDispatcher()) {
+                    val current = currentAsync.await()
+
+                    val fiveDaysAsync = async(DependencyProvider.Current.ioDispatcher()) {
                         weatherApiProvider.fiveDay(newLocation, units)
                     }
 
-                    weather.value = current.apply { this.fiveDays = fiveDays }
+
+                    val uvi = async(DependencyProvider.Current.ioDispatcher()) {
+                        weatherApiProvider.uvi(current.latitude, current.longitude)
+                    }
+
+                    val fiveDays = fiveDaysAsync.await()
+
+                    weather.value = current.apply {
+                        this.fiveDays = fiveDays
+                        this.uvi = UviType.fromValue(uvi.await().value)
+                    }
 
                     withContext(DependencyProvider.Current.ioDispatcher()) {
                         weatherCacheRepository.push(newLocation, current, fiveDays)
